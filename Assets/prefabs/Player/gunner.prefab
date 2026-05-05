@@ -319,7 +319,7 @@ GameObject:
   - component: {fileID: 1924568423510389294}
   - component: {fileID: 402036554944958372}
   - component: {fileID: 7905321317040507904}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: CollectArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -545,7 +545,6 @@ MonoBehaviour:
   _effectsData: []
   _weaponStatsSO: {fileID: 11400000, guid: 961a58ab944b5974895b57b16647f001, type: 2}
   _playerCalculateUpgrades: {fileID: 8405595244681605223}
-  _totalUpgradeStorage: {fileID: 3892650625790995324}
   _anchoredPosition: {fileID: 232048018733200231}
   _weaponTransform: {fileID: 7595939672081149244}
 --- !u!114 &2609712467428055350

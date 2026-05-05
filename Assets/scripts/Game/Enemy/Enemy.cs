@@ -8,9 +8,11 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyAnimator))]
 [RequireComponent(typeof(EffectController))]
 [RequireComponent(typeof(SortingLayerUpdate))]
+[RequireComponent(typeof(EnemySensor))]
 public class Enemy : MonoBehaviour, IPoolable
 {
     [SerializeField] private BasicStatsEnemySO _basicStatsEnemySO;
+    //Components
     public BasicStatsEnemySO BasicStatsEnemySO => _basicStatsEnemySO;
     private EnemyHealth _enemyHealth;
     private EnemyMovement _enemyMovement;
@@ -18,6 +20,8 @@ public class Enemy : MonoBehaviour, IPoolable
     private EnemyBrain _enemyBrain;
     private EnemyAnimator _enemyAnimator;
     private EffectController _effectController;
+    private EnemySensor _enemySensor;
+    //Pool
     private ObjectPool<Enemy> _enemyPool;
     private void Awake()
     {
@@ -27,6 +31,7 @@ public class Enemy : MonoBehaviour, IPoolable
         _meleAttackEnemy = GetComponentInChildren<MeleAttackEnemy>();
         _enemyBrain = GetComponent<EnemyBrain>();
         _enemyAnimator = GetComponent<EnemyAnimator>();
+        _enemySensor = GetComponent<EnemySensor>();
     }
     public void OnSpawnFromPool()
     {
@@ -50,6 +55,13 @@ public class Enemy : MonoBehaviour, IPoolable
     }
     public void ReturnToPool()
     {
-        _enemyPool.Return(this);
+        if (_enemyPool != null)
+        {
+            _enemyPool.Return(this);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

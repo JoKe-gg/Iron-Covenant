@@ -5,14 +5,18 @@ using System.Collections.Generic;
 public class SpawnEnemiesController : MonoBehaviour
 {
     [SerializeField] private List<EnemySpawnSO> _enemySpawnSOList;
-    [SerializeField] private GameObject _player;
-
+    //Target to spawn around
+    private GameObject _player;
+    [Header("Spawner Settings")] 
     [SerializeField] private float _minSpawnRadius = 14f;
     [SerializeField] private float _maxSpawnRadius = 18f;
-    [SerializeField] private int Limit = 100;
-    private float Timer = 0f;
-    private EnemyPool _enemyPool;
+    [SerializeField] private int _limit = 100;
+    [SerializeField] private float intervalBetweenSpawns = 2f;
     private bool _isAbleToSpawn = true;
+    //
+    private float _timer = 0f;
+    //Global enemy pool
+    private EnemyPool _enemyPool;
 
     private void Start()
     {
@@ -33,18 +37,17 @@ public class SpawnEnemiesController : MonoBehaviour
     }
     public int GetAmountOfExistedEnemies()
     {
-
         int totalAmountOfEnemy;
 
         totalAmountOfEnemy = GameObject.FindGameObjectsWithTag("Enemy").Length;
 
-        return Limit - totalAmountOfEnemy;
+        return _limit - totalAmountOfEnemy;
     }
     private void FixedUpdate()
     {
-        if (GameTimer.Instance.ElapsedTime - Timer >= 2f && _isAbleToSpawn)
+        if (GameTimer.Instance.ElapsedTime - _timer >= intervalBetweenSpawns && _isAbleToSpawn)
         {
-            Timer = GameTimer.Instance.ElapsedTime;
+            _timer = GameTimer.Instance.ElapsedTime;
             SpawnEnemy();
         }
     }

@@ -4,27 +4,39 @@ using UnityEngine.UIElements;
 
 public class EnemyMovement : Movable
 {
-    [SerializeField] private float _stunTime;
-    private Enemy _enemy;
+    //Components
     private SpriteRenderer _spriteRenderer;
+    private Enemy _enemy;
+    private EnemyBrain _enemyBrain;
     private BasicStatsEnemySO _basicStatsEnemySO;
-    private GameObject _player;
-    private Vector3 _target;
+    private EnemySensor _enemySensor;
+    //Movement
     private float _movementSpeed = 1.0f;
-    private Vector2 _lastFramePosition;
     private bool _isABleToMove = true;
+    //KnockBak
     private bool _toKnockBack = false;
     private float _knockBackSpeed = 8f;
+    //Stun
+    [SerializeField] private float _stunTime = 0.1f;
     private Coroutine _stunCoroutine;
+    //
+    private Vector2? _target;
+    //Flip
+    private Vector2 _lastFramePosition;
+    protected override void Awake()
+    {
+        base.Awake();
+        _enemyBrain = GetComponent<EnemyBrain>();
+        _enemy = GetComponent<Enemy>();
+        _enemySensor = GetComponent<EnemySensor>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
     private void Start()
     {
-        _player = GameObject.FindGameObjectWithTag("Player");
-        if (_player == null || _rigidBody == null)
+        if ( _rigidBody == null)
         {
             enabled = false;
         }
-        _enemy = GetComponent<Enemy>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         _basicStatsEnemySO = _enemy.BasicStatsEnemySO;
         _movementSpeed = _basicStatsEnemySO.basicStats.BasicMovementSpeed;
         _lastFramePosition = transform.position;
@@ -38,6 +50,10 @@ public class EnemyMovement : Movable
 
         _isABleToMove = false;
         _stunCoroutine = StartCoroutine(Stunning(stunTime));
+    }
+    private void UrgentTarget(Vector2? newTarget)
+    {
+        _target = newTarget;
     }
     private IEnumerator Stunning(float stunTime)
     {
@@ -55,41 +71,58 @@ public class EnemyMovement : Movable
         {
             return;
         }
-        MoveToPlayer();
     }
     private void Update()
     {
-        if (!_isABleToMove)
+        if (!_isABleToMove )
         {
             return;
         }
+        MoveToPlayer();
         Flip();
-
     }
     void OnEnable()
     {
-        InvokeRepeating(nameof(UrgentTarget), 0.1f, 0.2f);
+        if (_enemyBrain != null )
+        _enemyBrain.OnStateChanged += SetMovementState;
+        if (_enemySensor != null)
+        _enemySensor.OnUrgentTarget += UrgentTarget;
     }
     void OnDisable()
     {
-        CancelInvoke(nameof(UrgentTarget));
+        if (_enemyBrain != null)
+            _enemyBrain.OnStateChanged -= SetMovementState;
+        if (_enemySensor != null)
+            _enemySensor.OnUrgentTarget -= UrgentTarget;
     }
-    void UrgentTarget()
+    
+    private void SetMovementState(EnemyState state)
     {
-        if (_player != null)
+        switch (state)
         {
-            _target = _player.transform.position;
+            case EnemyState.buttle:
+                _isABleToMove = true;
+                break;
+            case EnemyState.idle:
+                _isABleToMove = false;
+                break;
+            default:
+                break;
         }
-        else return;
     }
     private void MoveToPlayer()
     {
-        if (_player == null)
+        Vector2 target = Vector2.zero;
+        if (_target == null)
         {
             _rigidBody.linearVelocity = Vector3.zero;
             return;
         }
-        Vector2 targetDir = -(transform.position - _target).normalized;
+        else
+        {
+            target = _target.Value;
+        }
+        Vector2 targetDir = -((Vector2)transform.position - target).normalized;
         if (_toKnockBack)
         {
             targetDir *= -1; 
