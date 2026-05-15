@@ -2,23 +2,29 @@
 using System.Collections.Generic;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
+using System.Linq;
 public class ConstUpgradeUIData
 {
-    public ConstUpgradeSO UpgradeSO { get; private set; }
-    public int CurrentLevel { get; private set; }
-
-    public ConstUpgradeUIData(ConstUpgradeSO upgradeSO, int currentLevel)
+    public int StartLevel { get; private set; }
+    public List<UpgradeSO> UpgradeSOs { get; private set; } = new();
+    public ConstUpgradeUIData(UpgradeSO upgradeSO, int currentLevel)
     {
-        UpgradeSO = upgradeSO;
-        CurrentLevel = currentLevel;
+        AddNewLevel(upgradeSO);
+        StartLevel = currentLevel;
+    }
+    public void AddNewLevel(UpgradeSO upgradeSO)
+    {
+        UpgradeSOs.Add(upgradeSO);
+        UpgradeSOs = UpgradeSOs.OrderBy(u => u.Level).ToList();
     }
 }
 public class ConstUpgradeManager : Savable
 {
     public static ConstUpgradeManager instance { get; private set; }
-    [SerializeField] private constUpgradeBaseSO _constUpgradeBase;
-    public List<ConstUpgradeUIData> GetConstUpgradeListForUI => GetConstUpgradeListUI();
-    public Dictionary<ConstUpgradeType, ConstUpgradeData> ConstUpgradeDictionary { get; private set; } = new();
+    [SerializeField] private UpgradeBaseSO _constUpgradeBase;
+    public List<ConstUpgradeUIData> ConstUpgradeListForUI => GetConstUpgradeListUI();
+    public Dictionary<int, UpgradeSO> ConstUpgradeDictionary { get; private set; } = new();
     private void Awake()
     {
         if (instance == null)
@@ -36,36 +42,34 @@ public class ConstUpgradeManager : Savable
         ConstUpgradeDictionary.Clear();
         foreach (var item in dataSave.ConstUpgradeList)
         {
-            foreach (var constUpgrade in _constUpgradeBase.ConstUpgradeList)
+            foreach (var upgradeSO in _constUpgradeBase.UpgradeList)
             {
-                if (item.UpgradeType == constUpgrade.ConstUpgradeType)
+                if (item.Id == upgradeSO.Id && item.Level == upgradeSO.Level)
                 {
-                    int index = item.Level - 1;
-
-                    if (index >= 0 && index < constUpgrade.ConstUpgradeData.Count)
-                    {
-                        ConstUpgradeDictionary[constUpgrade.ConstUpgradeType] = constUpgrade.ConstUpgradeData[index];
-                    }
+                    ConstUpgradeDictionary[item.Id] = upgradeSO;
+                    break;
                 }
             }
         }
     }
     private List<ConstUpgradeUIData> GetConstUpgradeListUI()
     {
-        List<ConstUpgradeUIData> NewConstUpgradeDictionary = new();
-        foreach (var constUpgrade in _constUpgradeBase.ConstUpgradeList)
+        Dictionary<int, ConstUpgradeUIData> NewConstUpgradeDictionary = new();
+        foreach (var constBasicUpgrade in _constUpgradeBase.UpgradeList)
         {
-            int level = 0;
-            if (ConstUpgradeDictionary.TryGetValue(constUpgrade.ConstUpgradeType, out ConstUpgradeData data))
+            if (NewConstUpgradeDictionary.TryGetValue(constBasicUpgrade.Id, out ConstUpgradeUIData constUpgradeUIData))
             {
-                level = data.Level;
+                constUpgradeUIData.AddNewLevel(constBasicUpgrade);
             }
-            ConstUpgradeUIData constUpgradeUIData = new(constUpgrade, level);
-
-
-            NewConstUpgradeDictionary.Add(constUpgradeUIData);
+            else
+            {
+                int startLevel = ConstUpgradeDictionary.TryGetValue(constBasicUpgrade.Id, out UpgradeSO upgradeSO)
+                    ? upgradeSO.Level
+                    : 0;
+                NewConstUpgradeDictionary[constBasicUpgrade.Id] = new(constBasicUpgrade, startLevel);
+            }
         }
-        return NewConstUpgradeDictionary;
+        return NewConstUpgradeDictionary.Values.ToList();
     }
     public override void Save(DataSave dataSave)
     {
@@ -73,32 +77,49 @@ public class ConstUpgradeManager : Savable
 
         foreach (var item in ConstUpgradeDictionary)
         {
-            ConstUpgradeDataSave constUpgradeDataSave = new(item.Value.Level, item.Key);
+            ConstUpgradeDataSave constUpgradeDataSave = new(item.Value);
             dataSave.ConstUpgradeList.Add(constUpgradeDataSave);
         }
     }
-    public ConstUpgradeData GetConstUpgrade(ConstUpgradeType constUpgradeType)
+    public LevelUPUpgradeData GetPermanentStatModifier(StatType statType)
     {
-        ConstUpgradeDictionary.TryGetValue(constUpgradeType, out ConstUpgradeData upgrade);
-        return upgrade;
-    }
-    public void AddConstUpgrade(ConstUpgradeData constUpgradeData, ConstUpgradeType constUpgradeType)
-    {
-        if (constUpgradeData == null)
+        foreach (var item in ConstUpgradeDictionary.Values)
         {
-            Debug.LogError("ConstUpgradeSO is null");
+            if (item.LevelUpgradeData.StatType == statType)
+            {
+                return item.LevelUpgradeData;
+            }
+        }
+        return null;
+    }
+    public NegativeEffectData GetPermanentEffect(StatusEffectType statusEffectType)
+    {
+        foreach (var item in ConstUpgradeDictionary.Values)
+        {
+            if (item.EffectData.EffectType == statusEffectType)
+            {
+                return item.EffectData;
+            }
+        }
+        return null;
+    }
+    public void AddConstUpgrade(UpgradeSO upgradeSO)
+    {
+        if (upgradeSO == null)
+        {
+            Debug.LogError("Permanent UpgradeSO is null");
             return;
         }
-        if (ConstUpgradeDictionary.TryGetValue(constUpgradeType, out ConstUpgradeData currentUpgrade))
+        if (ConstUpgradeDictionary.TryGetValue(upgradeSO.Id, out UpgradeSO currentUpgrade))
         {
-            if (currentUpgrade.Level < constUpgradeData.Level)
+            if (currentUpgrade.Level < upgradeSO.Level)
             {
-                ConstUpgradeDictionary[constUpgradeType] = constUpgradeData;
+                ConstUpgradeDictionary[upgradeSO.Id] = upgradeSO;
             }
         }
         else
         {
-            ConstUpgradeDictionary[constUpgradeType] = constUpgradeData;
+            ConstUpgradeDictionary[upgradeSO.Id] = upgradeSO;
         }    
     }
 }

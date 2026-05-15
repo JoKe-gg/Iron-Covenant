@@ -18,7 +18,7 @@ public class DataSave
                 ConstUpgradeDataSave constUpgradeDataSaveToRemove = null;
                 foreach(var item in ConstUpgradeList)
                 {
-                    if (item.UpgradeType == constUpgrade.UpgradeType)
+                    if (item.Id == constUpgrade.Id)
                     {   
                         doesExist = true;
                         if (item.Level < constUpgrade.Level)
@@ -52,10 +52,10 @@ public class DataSave
 public class ConstUpgradeDataSave
 {
     public int Level = 0;
-    public ConstUpgradeType UpgradeType;
-    public ConstUpgradeDataSave(int level, ConstUpgradeType upgradeType)
+    public int Id = 1;
+    public ConstUpgradeDataSave(UpgradeSO upgradeSO)
     {
-        Level = level;
-        UpgradeType = upgradeType;
+        Level = upgradeSO.Level;
+        Id = upgradeSO.Id;
     }
 }

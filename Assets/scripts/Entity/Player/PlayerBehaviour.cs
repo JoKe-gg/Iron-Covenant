@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerHealth))]
 [RequireComponent(typeof(PlayerCombat))]
 [RequireComponent(typeof(PlayerLevelSystem))]
-[RequireComponent(typeof(UpgradeDataBase))]
+[RequireComponent(typeof(PlayerUpgradeDataBase))]
 [RequireComponent(typeof(PlayerCalculateUpgrades))]
 [RequireComponent(typeof(TotalUpgradeStorage))]
 [RequireComponent(typeof(SortingLayerUpdate))]

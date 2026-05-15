@@ -16,11 +16,11 @@ GameObject:
   - component: {fileID: 2045347992232539787}
   - component: {fileID: 6005634081991582724}
   - component: {fileID: 6103949171565482269}
-  - component: {fileID: 7140783175944394324}
   - component: {fileID: 8405595244681605223}
   - component: {fileID: 3892650625790995324}
   - component: {fileID: 8790089829518630384}
   - component: {fileID: -8845002090072535259}
+  - component: {fileID: 833215532804708298}
   - component: {fileID: 6155013728698508090}
   m_Layer: 6
   m_Name: gunner
@@ -199,21 +199,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   _exp: 0
   _expBarController: {fileID: 0}
---- !u!114 &7140783175944394324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 275354524097758809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4399bbe66e44e3a4b9d9587a931b947a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UpgradeDataBase
-  _levelUpgradeSOs:
-  - {fileID: 11400000, guid: 04773890d9758cc438436add659b9029, type: 2}
-  - {fileID: 11400000, guid: b021fd9d670a6204aae144ee38165aac, type: 2}
 --- !u!114 &8405595244681605223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,6 +247,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f022d029b9822d4daf8f6ec6b2ffc45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &833215532804708298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275354524097758809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9945c1f98056a64191cfe2eefc0769b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradeDataBase
+  _levelUpgradeBaseOrigin: {fileID: 11400000, guid: 10911fd651fbd3a4a8049ee4f166b128, type: 2}
 --- !u!61 &6155013728698508090
 BoxCollider2D:
   m_ObjectHideFlags: 0

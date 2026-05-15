@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class ButtonActionForChoice : MonoBehaviour
 {
-    private SelectableUpgradeSO _selectableUpgradeSO;
+    private UpgradeSO _upgradeSO;
     private SetSelects _setSelects;
     private SelectableUpgradeManager _selectableUpgradeManager;
     public void AddSelectable()
     {
-        if (_selectableUpgradeSO == null)
+        if (_upgradeSO == null)
         {
-            Debug.LogError($"Null reference to {nameof(_selectableUpgradeSO)} in the script {nameof(ButtonActionForChoice)}");
+            Debug.LogError($"Null reference to {nameof(_upgradeSO)} in the script {nameof(ButtonActionForChoice)}");
             return;
         }
-        GameObject player = PlayerSpawnManager.CurrentPlayer;
-        if (_selectableUpgradeSO.ReadEffect)
-            player.GetComponent<PlayerStatuses>().AddNewEffect(_selectableUpgradeSO.EffectData);
-        if (_selectableUpgradeSO.ReadUpgrade) { }
-            player.GetComponent<PlayerStatuses>().AddNewUpgrade(_selectableUpgradeSO.Upgrade);
+        PlayerStatuses playerStatuses = PlayerSpawnManager.CurrentPlayer.GetComponent<PlayerStatuses>();
+        if (_upgradeSO.LevelUpgradeData != null)
+            playerStatuses.AddNewUpgrade(_upgradeSO);
+        if (_upgradeSO.EffectData != null) { }
+            playerStatuses.AddNewEffect(_upgradeSO.EffectData);
         _setSelects.CloseSelectPanel();
-        _selectableUpgradeManager.RemoveChoice(_selectableUpgradeSO);
+        _selectableUpgradeManager.RemoveChoice(_upgradeSO);
     }
-    public void SetSelectableUpgrade(SelectableUpgradeSO selectableUpgradeSO, SetSelects setSelect, SelectableUpgradeManager selectableUpgradeManager)
+    public void SetSelectableUpgrade(UpgradeSO upgradeSO, SetSelects setSelect, SelectableUpgradeManager selectableUpgradeManager)
     {
         _setSelects = setSelect;
-        _selectableUpgradeSO = selectableUpgradeSO;
+        _upgradeSO = upgradeSO;
         _selectableUpgradeManager = selectableUpgradeManager;
     }
 }

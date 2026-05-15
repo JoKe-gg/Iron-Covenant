@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -12,8 +13,9 @@ public class Shooting : Weapon
     private TotalUpgrade _damageUpgrade;
     private int _flatModifier = 0;
     private float _multipleModifier = 1;
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         bool error = false;
         _projectilePool = GameManager.instance.ProjectilePool;
         if (_projectilePool == null)
@@ -92,15 +94,54 @@ public class Shooting : Weapon
     private DamageData GetDamage(DamageData damage)
     {
         int amountOfDamage = damage.Amount;
-        if (_constUpgradeSO != null)
+        List<int> flatModifiers = new List<int>();
+        List<float> multipleModifiers = new List<float>();
+        int totalFlat = 0;
+        float totalMultiple = 1;
+        if (_damagePermanentUpgrade != null)
         {
-            var modifierData = _constUpgradeSO.StatModifierData;
+            var statModifierDatas = _damagePermanentUpgrade.StatModifierData;
 
-            amountOfDamage = Mathf.RoundToInt(modifierData.ModifierType == ModifierType.Multiple
-                ? amountOfDamage * modifierData.Modifier
-                : amountOfDamage + modifierData.Modifier);
+            foreach (var statModifierData in statModifierDatas)
+            {
+                switch (statModifierData.StatModifierType)
+                {
+                    case StatModifierType.Flat:
+                        flatModifiers.Add(Mathf.FloorToInt(statModifierData.Value));
+                        break;
+                    case StatModifierType.Multiple:
+                        multipleModifiers.Add(statModifierData.Value);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            totalFlat = CalculateFlat(flatModifiers);
+            totalMultiple = CalculateMultiple(multipleModifiers);
         }
-        damage = new DamageData(Mathf.RoundToInt((amountOfDamage + _flatModifier) * _multipleModifier), damage.DamageType, _playerCalculateUpgrades.gameObject);
+        amountOfDamage = Mathf.RoundToInt((amountOfDamage + totalFlat) * totalMultiple);
+        damage = new DamageData(Mathf.RoundToInt((amountOfDamage + _damageUpgrade.FlatModifierTotal) * _damageUpgrade.MultipleModifierTotal), damage.DamageType, _playerCalculateUpgrades.gameObject);
         return damage;
+    }
+    private int CalculateFlat(List<int> flatModifiers)
+    {
+        int totalFlat = 0;
+        foreach (int modifier in flatModifiers)
+        {
+            totalFlat += modifier;
+        }
+        return totalFlat;
+    }
+    private float CalculateMultiple(List<float> multipleModifiers)
+    {
+        float totalMultiple = 1;
+        foreach (float modifier in multipleModifiers)
+        {
+            if (modifier > 0)
+            {
+                totalMultiple *= modifier;
+            }
+        }
+        return totalMultiple;
     }
 }

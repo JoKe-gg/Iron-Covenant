@@ -4,17 +4,17 @@ using System;
 
 public class PlayerCalculateUpgrades : MonoBehaviour
 {
-    private UpgradeDataBase _upgradeData;
+    private PlayerUpgradeDataBase _upgradeData;
     private TotalUpgradeStorage _totalUpgradeStorage;
-    private List<LevelUpdateData> _levelUpgradeSOs;
+    private List<UpgradeSO> _levelUpgradeSOs;
     private PlayerLevelSystem _playerLevelSystem;
     public event Action OnUpgradeCalculationFinished;
     void Start()
     {
-        _upgradeData = GetComponent<UpgradeDataBase>();
+        _upgradeData = GetComponent<PlayerUpgradeDataBase>();
         _totalUpgradeStorage = GetComponent<TotalUpgradeStorage>();
         _playerLevelSystem = GetComponent<PlayerLevelSystem>();
-        _levelUpgradeSOs = _upgradeData.GetLevelUpdateData();
+        _levelUpgradeSOs = _upgradeData.GetLevelUpgradeSOList();
         if (_levelUpgradeSOs.Count > 0 )
         {
             _upgradeData.OnUpgradeListChanged += ReCalculate;
@@ -30,7 +30,7 @@ public class PlayerCalculateUpgrades : MonoBehaviour
     }
     public void ReCalculate()
     {
-        _levelUpgradeSOs = _upgradeData.GetLevelUpdateData();
+        _levelUpgradeSOs = _upgradeData.GetLevelUpgradeSOList();
         Calculate();
     }
     private void Calculate()
@@ -38,38 +38,34 @@ public class PlayerCalculateUpgrades : MonoBehaviour
         int currentPlayerLevel = _playerLevelSystem.CurrentLevel;
         _totalUpgradeStorage.ResetStorage();
 
-        List<LevelUpdateData> levelUpdateDatas = _upgradeData.GetLevelUpdateData();
+        List<UpgradeSO> levelUpgradeSOList = new(_levelUpgradeSOs);
 
-        foreach (var levelUpdateData in levelUpdateDatas)
+        foreach (var upgradeSO in levelUpgradeSOList)
         {
-            if (levelUpdateData != null && levelUpdateData.Level <= currentPlayerLevel)
+            List<int> flatModifiers = new List<int>();
+            List<float> multipleModifiers = new List<float>();
+
+            List<StatModifierData> statModifierDatas = upgradeSO.LevelUpgradeData.StatModifierData;
+            foreach (var statModifierData in statModifierDatas)
             {
-                List<int> flatModifiers = new List<int>();
-                List<float> multipleModifiers = new List<float>();
-
-                List<StatModifierData> statModifierDatas = levelUpdateData.StatModifiers;
-                foreach (var statModifierData in statModifierDatas)
+                switch (statModifierData.StatModifierType)
                 {
-                    if (statModifierData != null)
-                    {
-                        if (statModifierData.ModifierType == ModifierType.Flat)
-                        {
-                            flatModifiers.Add((int)statModifierData.Modifier);
-                        }
-                        else
-                        {
-                            multipleModifiers.Add(statModifierData.Modifier);
-                        }
-                    }
+                    case StatModifierType.Flat:
+                        flatModifiers.Add(Mathf.FloorToInt(statModifierData.Value));
+                        break;
+                    case StatModifierType.Multiple:
+                        multipleModifiers.Add(statModifierData.Value);
+                        break;
+                    default:
+                        break;
                 }
-
-                int totalFlat = CalculateFlat(flatModifiers);
-                float totalMultiple = CalculateMultiple(multipleModifiers);
-
-                _totalUpgradeStorage.AddNewTotalUpgrade(levelUpdateData.StatType, totalFlat, totalMultiple);
-
-                Debug.Log($"{levelUpdateData.StatType}: Flat: {totalFlat}; Multiple: {totalMultiple}");
             }
+            int totalFlat = CalculateFlat(flatModifiers);
+            float totalMultiple = CalculateMultiple(multipleModifiers);
+
+            _totalUpgradeStorage.AddNewTotalUpgrade(upgradeSO.LevelUpgradeData.StatType, totalFlat, totalMultiple);
+
+            Debug.Log($"{upgradeSO.LevelUpgradeData.StatType}: Flat: {totalFlat}; Multiple: {totalMultiple}");
         }
 
         OnUpgradeCalculationFinished?.Invoke();

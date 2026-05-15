@@ -12,8 +12,8 @@ public abstract class Weapon : MonoBehaviour
     protected float _cooldown = 0.2f;
     protected float _abilityCooldown = 3f;
     [SerializeField] protected List<NegativeEffectData> _effectsData = new();
-    protected ConstUpgradeData _constUpgradeSO;
-    private void Awake()
+    protected LevelUPUpgradeData _damagePermanentUpgrade;
+    protected virtual void Awake()
     {
         _totalUpgradeStorage = GetComponentInParent<TotalUpgradeStorage>();
         if (_totalUpgradeStorage == null)
@@ -22,18 +22,18 @@ public abstract class Weapon : MonoBehaviour
             return;
         }
     }
-    private void Start()
+    protected virtual void Start()
     {
-        _constUpgradeSO = ConstUpgradeManager.instance.GetConstUpgrade(ConstUpgradeType.Damage);
+        _damagePermanentUpgrade = ConstUpgradeManager.instance.GetPermanentStatModifier(StatType.Damage);
     }
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         if (_totalUpgradeStorage != null)
         {
             _totalUpgradeStorage.OnEffectListChanged += ReCalculateEffects;
         }
     }
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         if (_totalUpgradeStorage != null)
         {

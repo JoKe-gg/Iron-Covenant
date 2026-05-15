@@ -13,13 +13,11 @@ public class NegativeEffectData
 {
     [Header("Status")]
     [SerializeField] private StatusEffectType _effectType;
-    [SerializeField] private int _level;
     [SerializeField] private float _timeOfEffect;
     [SerializeField] private float _intervalBetweenTicks;
     [SerializeField] private DamageData _damageData;
 
     public StatusEffectType EffectType => _effectType;
-    public int Level => _level;
     public float TimeOfEffect => _timeOfEffect;
     public float IntervalBetweenTicks => _intervalBetweenTicks;
     public DamageData DamageData => _damageData;
@@ -35,21 +33,8 @@ public class NegativeEffectData
         DamageData.Source = source;
         DamageData.IgnoreDefense = ignoreDefense;
         DamageData.IgnoreInvincibility = ignoreInvincibility;
-
-        if (Level > 0)
-        {
-            _level = level;
-        }
-        else
-        {
-            ResetLevel();
-        }
         _effectType = statusEffectType;
         _intervalBetweenTicks = intervalBetweenTicks;
         _timeOfEffect = timeOfEffect;
-    }
-    public void ResetLevel()
-    {
-        _level = 1;
     }
 }

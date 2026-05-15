@@ -7,11 +7,11 @@ public class ConstUpgradeFiller : MonoBehaviour
     [SerializeField] private Transform _content;
     [SerializeField] private GameObject _constPrefab;
     private List<ConstUpgradeUIData> _constUpgradeBase;
-    private Dictionary<ConstUpgradeType, ConstUpgradeBehaviour> _constUpgradeDictionary = new();
+    private Dictionary<int, ConstUpgradeBehaviour> _constUpgradeDictionary = new();
 
     private void OnEnable()
     {
-        _constUpgradeBase = ConstUpgradeManager.instance.GetConstUpgradeListForUI;
+        _constUpgradeBase = ConstUpgradeManager.instance.ConstUpgradeListForUI;
         Debug.Log($"Const upgrade base amount = {_constUpgradeBase.Count}");
         ClearUI();
         InitializeConstantUpgrades();
@@ -29,25 +29,13 @@ public class ConstUpgradeFiller : MonoBehaviour
     {
         foreach (var constUpgrade in _constUpgradeBase)
         {
-            ConstUpgradeSO constUpgradeSO = constUpgrade.UpgradeSO;
-            for (int i = 0; i < constUpgradeSO.ConstUpgradeData.Count; i++)
+            List<UpgradeSO> constUpgradeSOs = constUpgrade.UpgradeSOs;
+            if (constUpgradeSOs != null)
             {
-                ConstUpgradeData constUpgradeData = constUpgradeSO.ConstUpgradeData[i];
-                if (i == 0)
-                {
-                    GameObject upgrade = Instantiate(_constPrefab, _content);
-                    ConstUpgradeBehaviour constUpgradeBehaviour = upgrade.GetComponent<ConstUpgradeBehaviour>();
-                    constUpgradeBehaviour.Initialize(constUpgradeData, constUpgradeSO.ConstUpgradeType, constUpgradeSO.Name, constUpgradeSO.Sprite);
-                    _constUpgradeDictionary.Add(constUpgradeSO.ConstUpgradeType, constUpgradeBehaviour);
-                }
-                else
-                {
-                    _constUpgradeDictionary[constUpgradeSO.ConstUpgradeType].AddLevel(constUpgradeData);
-                }
-                if (i == constUpgradeSO.ConstUpgradeData.Count - 1)
-                {
-                    _constUpgradeDictionary[constUpgradeSO.ConstUpgradeType].EndInitialize(constUpgrade.CurrentLevel);
-                }
+                GameObject upgrade = Instantiate(_constPrefab, _content);
+                ConstUpgradeBehaviour constUpgradeBehaviour = upgrade.GetComponent<ConstUpgradeBehaviour>();
+                constUpgradeBehaviour.Initialize(constUpgradeSOs, constUpgrade.StartLevel);
+                _constUpgradeDictionary.Add(constUpgradeSOs[0].Id, constUpgradeBehaviour);
             }
         }
     }

@@ -22,7 +22,7 @@ public class SetSelects : MonoBehaviour
     }
     private void OnEnable()
     {
-        List<SelectableUpgradeSO> list = _upgradeManager.GetChoices();
+        List<UpgradeSO> list = _upgradeManager.GetChoices();
         InitializeSelects(list);
     }
     public void CloseSelectPanel()
@@ -34,17 +34,17 @@ public class SetSelects : MonoBehaviour
         }
         PauseManager.instance.SetPause(false, false);
     }
-    public void InitializeSelects(List<SelectableUpgradeSO> selectableUpgradeSOs)
+    public void InitializeSelects(List<UpgradeSO> UpgradeSOList)
     {
-        if (selectableUpgradeSOs == null || selectableUpgradeSOs.Count == 0)
+        if (UpgradeSOList == null || UpgradeSOList.Count == 0)
         {
             CloseSelectPanel();
         }
-        foreach (var upgradeSO in selectableUpgradeSOs)
+        foreach (var upgradeSO in UpgradeSOList)
         {
             GameObject newSelect = Instantiate(_upgradeSelectPrefab, _contentTransform);
             newSelect.GetComponent<ButtonActionForChoice>().SetSelectableUpgrade(upgradeSO, this, _upgradeManager);
-            newSelect.GetComponent<UpgradeChoiceBehaviour>().SetSelect(upgradeSO);
+            newSelect.GetComponent<UpgradeChoiceBehaviour>().Initialize(upgradeSO);
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerStatuses : MonoBehaviour
 {
     private TotalUpgradeStorage _totalUpgradeStorage;
-    private UpgradeDataBase _upgradeDataBase;
+    private PlayerUpgradeDataBase _upgradeDataBase;
     private void Awake()
     {
         _totalUpgradeStorage = GetComponent<TotalUpgradeStorage>();
@@ -14,8 +14,8 @@ public class PlayerStatuses : MonoBehaviour
             Debug.LogError($"Null reference to {nameof(_totalUpgradeStorage)} in the script {nameof(PlayerStatuses)}");
             return;
         }
-        _upgradeDataBase = GetComponent<UpgradeDataBase>();
+        _upgradeDataBase = GetComponent<PlayerUpgradeDataBase>();
     }
     public void AddNewEffect(NegativeEffectData negativeEffectData) => _totalUpgradeStorage.AddNewEffect(negativeEffectData);
-    public void AddNewUpgrade(LevelUpdateData levelUpdateData) => _upgradeDataBase.AddNewUpgrade(levelUpdateData);
+    public void AddNewUpgrade(UpgradeSO levelUpgradeSO) => _upgradeDataBase.AddNewUpgrade(levelUpgradeSO);
 }

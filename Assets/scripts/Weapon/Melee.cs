@@ -1,4 +1,6 @@
+using Mono.Cecil;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum WeaponState
@@ -20,8 +22,9 @@ public class Melee : Weapon
     [SerializeField]private MeleeAttackBehaviour _meleeAttackBehaviour;
     [SerializeField] private Animator _animator;
     private bool _isAbleToStartAttack = true;
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         bool error = false;
         if (_meleeAttackBehaviour == null)
         {
@@ -68,6 +71,7 @@ public class Melee : Weapon
     }
     private void OnDestroy()
     {
+        
         _playerCalculateUpgrades.OnUpgradeCalculationFinished -= UpdateUpgrade;
     }
     protected override void Attack()
@@ -111,15 +115,54 @@ public class Melee : Weapon
     private DamageData GetDamage(DamageData damage)
     {
         int amountOfDamage = damage.Amount;
-        if (_constUpgradeSO != null)
+        List<int> flatModifiers = new List<int>();
+        List<float> multipleModifiers = new List<float>();
+        int totalFlat = 0;
+        float totalMultiple = 1;
+        if (_damagePermanentUpgrade != null)
         {
-            var modifierData = _constUpgradeSO.StatModifierData;
+            var statModifierDatas = _damagePermanentUpgrade.StatModifierData;
 
-            amountOfDamage = Mathf.RoundToInt(modifierData.ModifierType == ModifierType.Multiple
-                ? amountOfDamage * modifierData.Modifier
-                : amountOfDamage + modifierData.Modifier);
+            foreach (var statModifierData in statModifierDatas)
+            {
+                switch (statModifierData.StatModifierType)
+                {
+                    case StatModifierType.Flat:
+                        flatModifiers.Add(Mathf.FloorToInt(statModifierData.Value));
+                        break;
+                    case StatModifierType.Multiple:
+                        multipleModifiers.Add(statModifierData.Value);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            totalFlat = CalculateFlat(flatModifiers);
+            totalMultiple = CalculateMultiple(multipleModifiers);
         }
+        amountOfDamage = Mathf.RoundToInt((amountOfDamage + totalFlat) * totalMultiple);
         damage = new DamageData(Mathf.RoundToInt((amountOfDamage + _damageUpgrade.FlatModifierTotal) * _damageUpgrade.MultipleModifierTotal), damage.DamageType, _playerCalculateUpgrades.gameObject);
         return damage;
+    }
+    private int CalculateFlat(List<int> flatModifiers)
+    {
+        int totalFlat = 0;
+        foreach (int modifier in flatModifiers)
+        {
+            totalFlat += modifier;
+        }
+        return totalFlat;
+    }
+    private float CalculateMultiple(List<float> multipleModifiers)
+    {
+        float totalMultiple = 1;
+        foreach (float modifier in multipleModifiers)
+        {
+            if (modifier > 0)
+            {
+                totalMultiple *= modifier;
+            }
+        }
+        return totalMultiple;
     }
 }

@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 public class SelectableUpgradeManager : MonoBehaviour
 {
-    [SerializeField] private List<SelectableUpgradeSO> _originUpgrades;
-    private List<SelectableUpgradeSO> _upgrades;
+    [SerializeField] private UpgradeBaseSO _originUpgrades;
+    private List<UpgradeSO> _upgrades;
     private void Awake()
     {
-        _upgrades = new List<SelectableUpgradeSO>(_originUpgrades);
+        _upgrades = new(_originUpgrades.UpgradeList);
     }
-    public List<SelectableUpgradeSO> GetChoices(int requiredAmount = 2)
+    public List<UpgradeSO> GetChoices(int requiredAmount = 2)
     {
         if (_upgrades == null || _upgrades.Count == 0)
         {
-            return new List<SelectableUpgradeSO>();
+            return new List<UpgradeSO>();
         }
-        List<SelectableUpgradeSO> availableSelectableUpgrades = GetAvailableChoices();
-        List<SelectableUpgradeSO> choices = new();
+        List<UpgradeSO> availableSelectableUpgrades = GetAvailableChoices();
+        List<UpgradeSO> choices = new();
 
         if (availableSelectableUpgrades.Count <= requiredAmount)
         {
@@ -26,44 +26,34 @@ public class SelectableUpgradeManager : MonoBehaviour
         for (int i = 0; i < requiredAmount; i++)
         {
             int randIndex = Random.Range(0, availableSelectableUpgrades.Count);
-            SelectableUpgradeSO newSelect = availableSelectableUpgrades[randIndex];
+            UpgradeSO newSelect = availableSelectableUpgrades[randIndex];
             choices.Add(newSelect);
             availableSelectableUpgrades.RemoveAt(randIndex);
         }
         return choices;
     }
-    private List<SelectableUpgradeSO> GetAvailableChoices()
+    private List<UpgradeSO> GetAvailableChoices()
     {
-        Dictionary<UpgradeChoiceType, SelectableUpgradeSO> availableChoices = new Dictionary<UpgradeChoiceType, SelectableUpgradeSO>();
+        Dictionary<int, UpgradeSO> availableChoices = new();
         foreach (var upgrade in _upgrades)
         {
-            if (availableChoices.TryGetValue(upgrade.UpgradeChoiceType, out SelectableUpgradeSO value)) 
+            if (availableChoices.TryGetValue(upgrade.Id, out UpgradeSO value)) 
             {
-                if(upgrade.ReadUpgrade)
+                if (upgrade.Level < value.Level)
                 {
-                    if (upgrade.Upgrade.Level < value.Upgrade.Level)
-                    {
-                        availableChoices[upgrade.UpgradeChoiceType] = upgrade;
-                    }
-                }
-                else
-                {
-                    if (upgrade.EffectData.Level < value.EffectData.Level)
-                    {
-                        availableChoices[upgrade.UpgradeChoiceType] = upgrade;
-                    }
+                    availableChoices[upgrade.Id] = upgrade;
                 }
             }
             else
             {
-                availableChoices[upgrade.UpgradeChoiceType] = upgrade;
+                availableChoices[upgrade.Id] = upgrade;
             }
         }
-        List<SelectableUpgradeSO> selectableUpgrades = availableChoices.Values.ToList();
+        List<UpgradeSO> selectableUpgrades = availableChoices.Values.ToList();
         return selectableUpgrades;
     }
-    public void RemoveChoice(SelectableUpgradeSO selectableUpgradeSO)
+    public void RemoveChoice(UpgradeSO upgradeSO)
     {
-        _upgrades.RemoveAll(u => u == selectableUpgradeSO);
+        _upgrades.RemoveAll(u => u == upgradeSO);
     }
 }

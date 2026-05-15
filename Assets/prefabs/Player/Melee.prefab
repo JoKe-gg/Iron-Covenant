@@ -117,12 +117,12 @@ GameObject:
   - component: {fileID: 4999095181719907465}
   - component: {fileID: 5269935437374109991}
   - component: {fileID: 2458521143299782490}
-  - component: {fileID: 7405688202619413456}
   - component: {fileID: 4287132875641918960}
   - component: {fileID: 669527080364613967}
   - component: {fileID: 6643966264539063550}
   - component: {fileID: 1516559206170956839}
   - component: {fileID: 3751825098914117996}
+  - component: {fileID: 6414816343493486977}
   m_Layer: 6
   m_Name: Melee
   m_TagString: Player
@@ -245,7 +245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 539f787114e9c6e4a9c2d9bf20ea9566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _playerLevelSystem: {fileID: 2458521143299782490}
   _playerBasicStatsSO: {fileID: 11400000, guid: 0727baff3da6c50489e93fd876493566, type: 2}
 --- !u!114 &5389531215205173657
 MonoBehaviour:
@@ -260,7 +259,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   _movementSpeed: 6
-  _spriteRenderer: {fileID: 5037254714964342646}
 --- !u!114 &4999095181719907465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,12 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3be64267f8e5564b8109b786ab60b9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _playerCalculateUpgrades: {fileID: 4287132875641918960}
-  _totalUpgradeStorage: {fileID: 669527080364613967}
-  _playerBehaviour: {fileID: 2496805225745783802}
-  _playerLevelSystem: {fileID: 2458521143299782490}
   _hpBarController: {fileID: 0}
-  _spriteRenderer: {fileID: 5037254714964342646}
   _invincibilityTime: 0.2
 --- !u!114 &5269935437374109991
 MonoBehaviour:
@@ -305,25 +298,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c98923835a866754c80c3bfe2c42c6bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _playerCalculateUpgrades: {fileID: 4287132875641918960}
   _exp: 0
   _expBarController: {fileID: 0}
-  _playerBehaviour: {fileID: 2496805225745783802}
---- !u!114 &7405688202619413456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650035193259136406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4399bbe66e44e3a4b9d9587a931b947a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UpgradeDataBase
-  _levelUpgradeSOs:
-  - {fileID: 11400000, guid: 04773890d9758cc438436add659b9029, type: 2}
-  - {fileID: 11400000, guid: b021fd9d670a6204aae144ee38165aac, type: 2}
 --- !u!114 &4287132875641918960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,8 +312,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cbedffff49bda64480e663f96e063dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _upgradeData: {fileID: 7405688202619413456}
-  _totalUpgradeStorage: {fileID: 669527080364613967}
 --- !u!114 &669527080364613967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,7 +324,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b22741c64669c6142bcd57886c9df89e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _playerCalculateUpgrades: {fileID: 4287132875641918960}
 --- !u!114 &6643966264539063550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -421,8 +394,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f022d029b9822d4daf8f6ec6b2ffc45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatuses
-  _weapon: {fileID: 6128575599210140840}
-  _upgradeDataBase: {fileID: 7405688202619413456}
+--- !u!114 &6414816343493486977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650035193259136406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9945c1f98056a64191cfe2eefc0769b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradeDataBase
+  _levelUpgradeBaseOrigin: {fileID: 11400000, guid: 10911fd651fbd3a4a8049ee4f166b128, type: 2}
 --- !u!1 &2550741600064685930
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,7 +627,6 @@ MonoBehaviour:
   _effectsData: []
   _weaponStatsSO: {fileID: 11400000, guid: a7a10acc587515646bf577a8ee74b01d, type: 2}
   _playerCalculateUpgrades: {fileID: 4287132875641918960}
-  _totalUpgradeStorage: {fileID: 669527080364613967}
   _weaponTransform: {fileID: 9003259926870397082}
   _meleeAttackBehaviour: {fileID: 2217020401892985030}
   _animator: {fileID: 2205488672419357002}
