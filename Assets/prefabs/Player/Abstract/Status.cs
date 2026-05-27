@@ -14,11 +14,14 @@ public class StatusBasicData
 public abstract class Status : MonoBehaviour
 {
     [SerializeField] private StatusBasicData _negativeStatusBasicData;
+    protected Coroutine _disableCoroutine;
 
-    protected IEnumerator RemoveAfterTime(float time)
+    protected IEnumerator DisableAfterTime(float time)
     {
         yield return new WaitForSeconds(time);
-        Destroy(this);
+        enabled = false;
     }
+    public abstract void UpdateData(NegativeEffectData negativeEffectData);
     public abstract void Initialize(NegativeEffectData negativeEffectData);
+    protected abstract IEnumerator Tick();
 }

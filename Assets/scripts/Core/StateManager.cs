@@ -27,7 +27,6 @@ public class StateManager : MonoBehaviour
     }
     public void SetState(RuntimeState state)
     {
-        Debug.Log($"Current state = {CurrentState}");
         if(CurrentState == state)
         {
             return;

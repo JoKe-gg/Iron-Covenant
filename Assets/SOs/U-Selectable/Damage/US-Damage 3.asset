@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: US-Damage 3
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
   _id: 3
+  _upgradeTypes: 00000000
   _name: Damage
   _description: Add 20 damage
   _sprite: {fileID: 0}
@@ -28,6 +29,7 @@ MonoBehaviour:
       Source: {fileID: 0}
       IgnoreDefense: 0
       IgnoreInvincibility: 0
+    _level: 3
   _levelUpgradeData:
     _statType: 1
     _statModifierData:

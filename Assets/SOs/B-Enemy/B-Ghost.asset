@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 607ac0e44473c4c4bb827fabd2f1f130, type: 3}
   m_Name: B-Ghost
   m_EditorClassIdentifier: Assembly-CSharp::BasicStatsEnemySO
+  _name: Ghost
   basicStats:
     _enemyType: 0
     _basicMaxHealth: 150
@@ -28,5 +29,16 @@ MonoBehaviour:
       Source: {fileID: 0}
       IgnoreDefense: 1
       IgnoreInvincibility: 1
+    _negativeEffectData:
+    - _effectType: 0
+      _timeOfEffect: 3
+      _intervalBetweenTicks: 1
+      _damageData:
+        Amount: 2
+        DamageType: 1
+        Source: {fileID: 0}
+        IgnoreDefense: 1
+        IgnoreInvincibility: 1
+      _level: 0
     _basicMovementSpeed: 2.5
     _intervalBetweenAttacks: 0.1

@@ -1,11 +1,17 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+public enum TypeOfAddedUpgrade 
+{ 
+    statsModifier,
+    newEffect
+}
 [CreateAssetMenu(fileName = "UpgradeSO", menuName = "Scriptable Objects/UpgradeSO")]
 public class UpgradeSO : ScriptableObject
 {
     [Header("ID")]
     [SerializeField] private int _id;
+    [SerializeField] private List<TypeOfAddedUpgrade> _upgradeTypes;
     [SerializeField] private string _name;
     [SerializeField] private string _description;
     [SerializeField] private Sprite _sprite;
@@ -16,6 +22,7 @@ public class UpgradeSO : ScriptableObject
     [SerializeField] private LevelUPUpgradeData _levelUpgradeData;
     [SerializeField] private StubData _stubData;
     public int Id => _id;
+    public List<TypeOfAddedUpgrade > UpgradeTypes => _upgradeTypes;
     public string Name => _name;
     public string Description => _description;
     public Sprite Sprite => _sprite;
@@ -33,6 +40,10 @@ public class UpgradeSO : ScriptableObject
         foreach (var item in _levelUpgradeData.StatModifierData)
         {
             item.OnValidate();
+        }
+        if (_effectData != null)
+        {
+            _effectData.SetLevel(_level);
         }
     }
 }

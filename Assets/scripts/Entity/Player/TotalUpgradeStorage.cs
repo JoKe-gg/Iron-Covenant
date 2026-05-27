@@ -89,6 +89,7 @@ public class TotalUpgradeStorage : MonoBehaviour
             _effectList.Add(negativeEffectData.EffectType, effect);
         }
         OnEffectListChanged?.Invoke(GetEffects());
+        Debug();
     }
     public bool TryGetTotalUpgrade(StatType statType, out TotalUpgrade totalUpgrade)
     {
@@ -128,12 +129,11 @@ public class TotalUpgradeStorage : MonoBehaviour
     }
     public void Debug()
     {
-        foreach (TotalUpgrade totalUpgrade in _totalUpgrades.Values)
+        foreach (Effect effect in _effectList.Values)
         {
             UnityEngine.Debug.Log(
-                $"Total Upgrade Data of {totalUpgrade.StatTypeTotal}." +
-                $"\n Flat modifier: {totalUpgrade.FlatModifierTotal};" +
-                $"\n Multiple modifier: {totalUpgrade.MultipleModifierTotal}\n\n");
+                $"Effect Data of {effect.EffectData.EffectType} + {effect.EffectData.Level}" +
+                $"\n Damage : {effect.EffectData.DamageData.DamageType} : {effect.EffectData.DamageData.DamageType} ");
         }
     }
 }

@@ -24,4 +24,11 @@ public class EnemySpawnData
     {
         return new Vector2(_timeInterval.x, _timeInterval.y) * 60;
     }
+    public void OnValidate()
+    {
+        if (_timeInterval.x > _timeInterval.y)
+        {
+            _timeInterval.y = _timeInterval.x + 0.1f;
+        }
+    }
 }

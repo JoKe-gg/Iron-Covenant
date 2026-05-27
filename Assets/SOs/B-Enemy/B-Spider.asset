@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 607ac0e44473c4c4bb827fabd2f1f130, type: 3}
+  m_Name: B-Spider
+  m_EditorClassIdentifier: Assembly-CSharp::BasicStatsEnemySO
+  _name: Spider
+  basicStats:
+    _enemyType: 0
+    _basicMaxHealth: 100
+    _basicResist: 0
+    _expForKillingRange: {x: 5, y: 10}
+    _coinsForKillingRange: {x: 2, y: 8}
+    _data:
+      _regards: 
+      _playerId: 0
+      _mapId: 0
+    _basicDamageData:
+      Amount: 8
+      DamageType: 0
+      Source: {fileID: 0}
+      IgnoreDefense: 0
+      IgnoreInvincibility: 0
+    _negativeEffectData:
+    - _effectType: 0
+      _timeOfEffect: 3
+      _intervalBetweenTicks: 0.5
+      _damageData:
+        Amount: 5
+        DamageType: 1
+        Source: {fileID: 0}
+        IgnoreDefense: 1
+        IgnoreInvincibility: 1
+      _level: 1
+    _basicMovementSpeed: 2
+    _intervalBetweenAttacks: 0.1

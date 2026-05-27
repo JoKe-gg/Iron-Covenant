@@ -9,7 +9,6 @@ public abstract class Weapon : MonoBehaviour
     protected TotalUpgradeStorage  _totalUpgradeStorage;
     private bool _isAbleToAttack = true;
     private bool _isAbleToUseAbility = true;
-    private bool _isPaused = false;
     protected float _cooldown = 0.2f;
     protected float _abilityCooldown = 3f;
     [SerializeField] protected List<NegativeEffectData> _effectsData = new();
@@ -25,9 +24,7 @@ public abstract class Weapon : MonoBehaviour
     }
     protected virtual void Start()
     {
-        PauseManager.instance.OnPauseStatusChanged += OnPaused;
     }
-    private void OnPaused(bool value) => _isPaused = value;
     protected virtual void OnEnable()
     {
         if (_totalUpgradeStorage != null)
@@ -44,7 +41,7 @@ public abstract class Weapon : MonoBehaviour
     }
     public void TryAttack()
     {
-        if (!_isAbleToAttack || _isPaused)
+        if (!_isAbleToAttack )
             return;
 
         Attack();
@@ -52,7 +49,7 @@ public abstract class Weapon : MonoBehaviour
     }
     public void TryAbilityAttack()
     {
-        if (!_isAbleToUseAbility || _isPaused)
+        if (!_isAbleToUseAbility)
             return;
 
         UseAbility();

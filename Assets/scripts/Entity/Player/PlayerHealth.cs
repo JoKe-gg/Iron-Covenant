@@ -25,6 +25,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IChangingBar
     private int _basicHealth = 0;
     private int _health = 0;
     private int _maxHealth = 0;
+    private int _resistance = 0;
     private bool _isInvincible = false;
     public event Action OnPlayerDied;
     public float _regenInterval = 1f;
@@ -44,6 +45,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IChangingBar
         _basicHealth = _playerBehaviour.PlayerBasicStatsSO.PlayerBasicStatsData.HP;
         _maxHealth = _basicHealth;
         _health = _maxHealth;
+        _resistance = _playerBehaviour.PlayerBasicStatsSO.PlayerBasicStatsData.Resistance;
         _playerCalculateUpgrades.OnUpgradeCalculationFinished += UpdateConstUpgrades;
         _regenNextTime = Time.time + _regenInterval;
     }
@@ -86,18 +88,36 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IChangingBar
     }
     public void TakeDamage(DamageData damageData, float knockback = 0)
     {
-        if (_isInvincible)
+        if (!damageData.IgnoreInvincibility)
+        {
+            if (_isInvincible)
+            {
+                return;
+            }
+        }
+
+        int totalDamage = damageData.Amount - (damageData.IgnoreDefense ? 0 : _resistance);
+
+        if (totalDamage <= 0)
         {
             return;
         }
         _isInvincible = true;
-        StartCoroutine(Invincibility(_invincibilityTime));
-        _health -= damageData.Amount;
+        _health -= totalDamage;
         _health = Mathf.Clamp(_health, 0, _maxHealth);
         ChangeBar();
+
         if (_health == 0)
         {
             Death();
+            return;
+        }
+        if (isActiveAndEnabled)
+        {
+            if (!damageData.IgnoreInvincibility)
+            {
+                StartCoroutine(Invincibility(_invincibilityTime));
+            }
         }
     }
     public void RestoreHP(int hp)

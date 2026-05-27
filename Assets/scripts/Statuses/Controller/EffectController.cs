@@ -1,70 +1,99 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
+public class StatusExemplaire
+{
+    public Status Status { get; private set; }
+    public NegativeEffectData EffectData { get; private set; }
+    public StatusExemplaire(NegativeEffectData effectData, Status status)
+    {
+        Status = status;
+        EffectData = effectData;
+    }
+    public void UpdateData(NegativeEffectData effectData, bool isActive)
+    {
+        if (effectData != null)
+        {
+            EffectData = effectData;
+            {
+                if (!isActive)
+                {
+                    Status.enabled = true;
+                }
+                Status.UpdateData(effectData);
+            }
+        }
+    }
+}
 public class EffectController : MonoBehaviour
 {
-    Dictionary<StatusEffectType, Status> _activeEffects = new();
-    /// <summary>
-    /// Накладывает эффект отравления на объект нанося урон типа заданого в <paramref name="damageData"/>.
-    /// </summary>
-    /// <param name="damageData">Урон за тик</param>
+    Dictionary<StatusEffectType, StatusExemplaire> _activeEffects = new();
+
+    Dictionary<StatusEffectType, Func<GameObject, Status>> _factory = new()
+    {
+        {StatusEffectType.Poison, go => go.AddComponent<PoisonEffect>() },
+        {StatusEffectType.Burn, go => go.AddComponent<BurnEffect>() },
+        {StatusEffectType.Stun, go => throw new NotSupportedException("Stun effect is not realized") },
+        {StatusEffectType.Slow, go => throw new NotSupportedException("Slow effect is not realized") },
+    };
     public void AddStatus(NegativeEffectData effectData)
     {
         if (!gameObject.activeInHierarchy)
             return;
-        if (_activeEffects.TryGetValue(effectData.EffectType, out Status existingEffect))
-        {
-            if (effectData.EffectType == StatusEffectType.Burn)
-            {
-                return;
-            }
-            RemoveEffect(effectData.EffectType);
-            Destroy(existingEffect);
-        }
-        
 
-        Status newEffect = CreateEffect(effectData);
-        if (newEffect == null)
+        if (_activeEffects.TryGetValue(effectData.EffectType, out StatusExemplaire existingEffect))
         {
-            return;
+            UpdateExistedEffect(existingEffect, effectData);
         }
-
-        _activeEffects.Add(effectData.EffectType, newEffect);
-        newEffect.Initialize(effectData);
-    }
-    public void ApplyEffect<T>() where T : Status
-    {
-        if (!gameObject.activeInHierarchy)
-            return;
-        gameObject.AddComponent<T>();
-    }
-    public void RemoveEffect(StatusEffectType effectType)
-    {
-        if (_activeEffects.TryGetValue(effectType, out Status effect))
+        else
         {
-            _activeEffects.Remove(effectType);
-            Destroy(effect);
+            AddNewEffect(effectData);
         }
     }
-    private Status CreateEffect(NegativeEffectData effectData)
+    public Status CreateEffect(StatusEffectType statusEffectType)
     {
-        return effectData.EffectType switch
+        return statusEffectType switch
         {
             StatusEffectType.Poison => gameObject.AddComponent<PoisonEffect>(),
             StatusEffectType.Burn => gameObject.AddComponent<BurnEffect>(),
-            //StatusEffectType.Stun => gameObject.AddComponent<StunEffect>(),
-            //StatusEffectType.Slow => gameObject.AddComponent<SlowEffect>(),
-            _ => null
+            _ => null,
         };
+    }
+    public void AddNewEffect(NegativeEffectData effectData)
+    {
+        Status newEffect = _factory[effectData.EffectType](gameObject);
+        if (newEffect != null)
+        {
+            newEffect.Initialize(effectData);
+            StatusExemplaire statusExemplaire = new(effectData, newEffect);
+            _activeEffects.Add(effectData.EffectType, statusExemplaire);
+        }
+    }
+    public void UpdateExistedEffect(StatusExemplaire ExistedEffectExemplaire, NegativeEffectData newEffectData)
+    {
+        if (ExistedEffectExemplaire != null && newEffectData != null)
+        {
+            if (ExistedEffectExemplaire.Status.enabled)
+            {
+                if (ExistedEffectExemplaire.EffectData.Level < newEffectData.Level)
+                {
+                    ExistedEffectExemplaire.UpdateData(newEffectData, true);
+                }
+            }
+            else
+            {
+                ExistedEffectExemplaire.UpdateData(newEffectData, false);
+            }
+        }
     }
     public void ResetEffects()
     {
         foreach (var effect in _activeEffects.Values)
         {
-            if (effect != null)
-                Destroy(effect);
+            Destroy(effect.Status);
         }
-
         _activeEffects.Clear();
     }
 }

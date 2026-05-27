@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MapChoicesSO
   _defaultChoice:
     MapId: 1
-    MapSprite: {fileID: 21300000, guid: 12faaea4129a6884d8e399d6e30089b3, type: 3}
-    MapName: The land of knights default
+    MapSprite: {fileID: 21300000, guid: f2265923429a0a44dbab93bcc9fc0c21, type: 3}
+    MapName: The land of knights
   _mapChoicesData:
   - MapId: 2
-    MapSprite: {fileID: 21300000, guid: 2c97fc85a25897e42ab57a0c732d39da, type: 3}
-    MapName: The land of knights
+    MapSprite: {fileID: 21300000, guid: 7a025c94f2d79eb439bc91a960ea6762, type: 3}
+    MapName: Castle of honor

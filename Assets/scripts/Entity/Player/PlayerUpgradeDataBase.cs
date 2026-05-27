@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
-using TMPro;
 
 public class PlayerUpgradeDataBase : MonoBehaviour
 {

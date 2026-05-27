@@ -64,8 +64,6 @@ public class PlayerCalculateUpgrades : MonoBehaviour
             float totalMultiple = CalculateMultiple(multipleModifiers);
 
             _totalUpgradeStorage.AddNewTotalUpgrade(upgradeSO.LevelUpgradeData.StatType, totalFlat, totalMultiple);
-
-            Debug.Log($"{upgradeSO.LevelUpgradeData.StatType}: Flat: {totalFlat}; Multiple: {totalMultiple}");
         }
 
         OnUpgradeCalculationFinished?.Invoke();

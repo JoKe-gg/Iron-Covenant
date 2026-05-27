@@ -25,7 +25,10 @@ public class PlayerLevelSystem : MonoBehaviour, IChangingBar
     }
     public void PurchaseEXP(int value)
     {
+        value = Mathf.Max(value, 0);
         _exp += value;
+
+        RuntimeStats.Instance.AddXP(value);
         UpdateXpTpNextLevel();
 
         if (_exp >= _xpToNextLevel)

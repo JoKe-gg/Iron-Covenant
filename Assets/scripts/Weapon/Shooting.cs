@@ -7,16 +7,29 @@ public class Shooting : Weapon
     [SerializeField] private PlayerCalculateUpgrades _playerCalculateUpgrades;
     [SerializeField] private Transform _anchoredPosition;
     [SerializeField] private WeaponTransform _weaponTransform;
+    private SpriteRenderer _spriteRenderer;
     private ProjectilePool _projectilePool;
+    private ProjectilePool _abilityProjectilePool;
     private TotalUpgrade _damageUpgrade;
+    protected override void Awake()
+    {
+        base.Awake();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
     protected override void Start()
     {
         base.Start();
         bool error = false;
         _projectilePool = GameManager.instance.ProjectilePool;
+        _abilityProjectilePool = GameManager.instance.AbilityProjectilePool;
         if (_projectilePool == null)
         {
             Debug.LogError($"Null reference to {nameof(_projectilePool)} in the script {nameof(Shooting)}");
+            error = true;
+        }
+        if (_abilityProjectilePool == null)
+        {
+            Debug.LogError($"Null reference to {nameof(_abilityProjectilePool)} in the script {nameof(Shooting)}");
             error = true;
         }
         if (_weaponTransform == null)
@@ -63,9 +76,10 @@ public class Shooting : Weapon
         DamageData _basicDamageData = _weaponStatsSO.DamageData;
         DamageData damage = GetDamage(_basicDamageData);
         float speed = _weaponStatsSO.Speed * 2f * (_weaponTransform.IsFlipped() ? -1 : 1);
+        bool flipX = _spriteRenderer.flipX;
         BulletBehaviour bulletBehaviour = _projectilePool.GetProjectile();
-        bulletBehaviour.transform.localRotation = transform.localRotation;
-        bulletBehaviour.Initialize(_effectsData, gameObject, _anchoredPosition.position, transform, damage, _weaponStatsSO.Penetration, speed, _projectilePool, 2f);
+        bulletBehaviour.transform.localRotation = transform.localRotation; 
+        bulletBehaviour.Initialize(_effectsData, gameObject, _anchoredPosition.position, transform, damage, _weaponStatsSO.Penetration, speed, _projectilePool, flipX, 2f);
     }
     protected override void UseAbility()
     {
@@ -73,9 +87,10 @@ public class Shooting : Weapon
         DamageData _basicDamageData = _weaponStatsSO.AbilityDamageData;
         DamageData damage = GetDamage(_basicDamageData);
         float speed = _weaponStatsSO.AbilitySpeed * 2f * (_weaponTransform.IsFlipped() ? -1 : 1);
-        BulletBehaviour bulletBehaviour = _projectilePool.GetProjectile();
+        bool flipX = _spriteRenderer.flipX;
+        BulletBehaviour bulletBehaviour = _abilityProjectilePool.GetProjectile();
         bulletBehaviour.transform.localRotation = transform.localRotation;
-        bulletBehaviour.Initialize(_effectsData, gameObject, _anchoredPosition.position, transform, damage, _weaponStatsSO.AbilityPenetration, speed, _projectilePool, 5f);
+        bulletBehaviour.Initialize(_effectsData, gameObject, _anchoredPosition.position, transform, damage, _weaponStatsSO.AbilityPenetration, speed, _abilityProjectilePool, flipX, 5f);
     }
     private void UpdateUpgrade()
     {

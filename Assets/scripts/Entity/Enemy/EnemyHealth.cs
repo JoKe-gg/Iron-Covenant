@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
-
+    [Header("Drop prefab")]
     [SerializeField] private GameObject _expGem;
+    [Header("Taking damage settings")]
     [SerializeField] private float _invincibilityTime = 0.12f;
+    [Header("UI")]
+    [SerializeField] private TakingDamageDisplay _damageDisplay;
     private BasicStatsEnemySO _basicStatsEnemySO;
     private Enemy _enemy;
     private EnemyMovement _enemyMovement;
@@ -14,9 +17,10 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     private int _health;
     private int _maxHealth;
     private int _resistance;
-    private bool _isAbleToAttack = true;
+    private bool _isAbleToTakeDamage = true;
     private bool _isDead = false;
     public event Action<int, int> OnHealthChanged;
+    private Vector2 _bossDisplayScale = new Vector2(2, 2);
     private void Awake()
     {
         _enemy = GetComponent<Enemy>();
@@ -52,7 +56,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         StopAllCoroutines();
         if (StateManager.instance != null)
             StateManager.instance.OnStateChanged -= OnStateChanged;
-        _isAbleToAttack = true;
+        _isAbleToTakeDamage = true;
     }
     private void OnStateChanged(RuntimeState state)
     {
@@ -84,11 +88,16 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         {
             return; 
         }
-        if (!_isAbleToAttack && !damageData.IgnoreInvincibility)
+        if (!damageData.IgnoreInvincibility)
         {
-            return;
+            if (!_isAbleToTakeDamage)
+            {
+                return;
+            }
         }
-        int totalDamage = damageData.Amount - _resistance;
+
+        int totalDamage = damageData.Amount - (damageData.IgnoreDefense ? 0 : _resistance);
+
         if (totalDamage <= 0)
         {
             return;
@@ -102,6 +111,30 @@ public class EnemyHealth : MonoBehaviour, IDamageable
             Death();
             return;
         }
+        Color color = Color.black;
+        if (_damageDisplay != null)
+        {
+            switch (damageData.DamageType)
+            {
+                case DamageType.Poison:
+                    color = Color.darkGreen; 
+                    break;
+                case DamageType.Fire:
+                    color = Color.orange;
+                    break;
+                case DamageType.Physical:
+                    ColorUtility.TryParseHtmlString("#671212", out Color physColor);
+                    color = physColor;
+                    break;
+                default:
+                    break;
+            }
+            Vector2 localScale = _basicStatsEnemySO.basicStats.EnemyType == EnemyType.Boss
+                ? _bossDisplayScale 
+                : Vector2.one;
+            _damageDisplay.DisplayDamage(totalDamage, color, localScale);
+            
+        }
         if (isActiveAndEnabled)
         {
             if (!damageData.IgnoreInvincibility)
@@ -112,9 +145,9 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     }
     private IEnumerator InvincibilityFrames()
     {
-        _isAbleToAttack = false;
+        _isAbleToTakeDamage = false;
         yield return new WaitForSeconds(_invincibilityTime);
-        _isAbleToAttack = true;
+        _isAbleToTakeDamage = true;
     }
     public void RestoreHP(int healing) 
     {
@@ -136,7 +169,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     {
         if (_isDead)
             return;
-
+        RuntimeStats.Instance.AddKilledEnemy(_basicStatsEnemySO.name);
         _isDead = true;
         StopAllCoroutines();
         DropGem();

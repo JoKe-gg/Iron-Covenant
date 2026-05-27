@@ -1,13 +1,14 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PoisonEffect : Status
 {
     private IDamageable _damageable;
     private NegativeEffectData _effectData;
-    private Coroutine _coroutine;
-    public void StartTimerToDestroy(float time) => StartCoroutine(RemoveAfterTime(time));
-    private void Start()
+    private float _intervalBetweenTicks = 0;
+    private Coroutine _tickCoroutine;
+    private void Awake()
     {
         _damageable = GetComponent<IDamageable>();
     }
@@ -20,22 +21,31 @@ public class PoisonEffect : Status
     }
     public override void Initialize(NegativeEffectData negativeEffectPoison)
     {
-        _effectData = negativeEffectPoison;
-        _coroutine = StartCoroutine(PoisonTick(0, negativeEffectPoison.IntervalBetweenTicks));
-        StartCoroutine(RemoveAfterTime(negativeEffectPoison.TimeOfEffect));
-    }
-    private void OnDestroy()
-    {
-        _coroutine = null;
-    }
-    protected IEnumerator PoisonTick(float delay, float interval)
-    {
-        yield return new WaitForSeconds(delay);
-
-        while (true)
+        if (gameObject.activeInHierarchy)
         {
-            TakePoisonedDamage();
-            yield return new WaitForSeconds(interval);
+            _effectData = negativeEffectPoison;
+            _intervalBetweenTicks = negativeEffectPoison.IntervalBetweenTicks;
+            _tickCoroutine = StartCoroutine(Tick());
+            _disableCoroutine = StartCoroutine(DisableAfterTime(_effectData.TimeOfEffect));
         }
     }
+    public override void UpdateData(NegativeEffectData negativeEffectData)
+    {
+        StopCoroutine(_disableCoroutine); 
+        StopCoroutine(_tickCoroutine);
+        Initialize(negativeEffectData);
+    }
+    private void OnDisable()
+    {
+        StopCoroutine(_tickCoroutine);
+    }
+    protected override IEnumerator Tick()
+    {
+        while(true)
+        {
+            TakePoisonedDamage();
+            yield return new WaitForSeconds(_intervalBetweenTicks);
+        }
+    }
+
 }

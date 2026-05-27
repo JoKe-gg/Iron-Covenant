@@ -35,14 +35,29 @@ public class ButtonActionForChoice : MonoBehaviour
                 }
             }
         }
-        else {
-            if (_upgradeSO.LevelUpgradeData != null){
-                playerStatuses.AddNewUpgrade(_upgradeSO);
+        else
+        {
+            foreach (var type in _upgradeSO.UpgradeTypes)
+            {
+                switch (type)
+                {
+                    case TypeOfAddedUpgrade.newEffect:
+                        if (_upgradeSO.EffectData != null)
+                        {
+                            playerStatuses.AddNewEffect(_upgradeSO.EffectData);
+                        }
+                        break;
+                    case TypeOfAddedUpgrade.statsModifier:
+                        if (_upgradeSO.LevelUpgradeData != null)
+                        {
+                            playerStatuses.AddNewUpgrade(_upgradeSO);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                _selectableUpgradeManager.RemoveChoice(_upgradeSO);
             }
-            if (_upgradeSO.EffectData != null){
-                playerStatuses.AddNewEffect(_upgradeSO.EffectData);
-            }
-            _selectableUpgradeManager.RemoveChoice(_upgradeSO);
         }
         _setSelects.CloseSelectPanel();
     }

@@ -8,6 +8,7 @@ public class MeleAttackEnemy : Attackable
     private Enemy _enemy;
     private BasicStatsEnemySO _basicStatsEnemySO;
     private IDamageable _target;
+    private EffectController _effectController = null;
     private float _timer;
     private float _interval;
     private void Awake()
@@ -24,14 +25,16 @@ public class MeleAttackEnemy : Attackable
         {
             return;
         }
+        if (((1 << collision.gameObject.layer) & _layerMask) == 0)
+        {
+            return;
+        }
         if (collision.TryGetComponent<IDamageable>(out var damageable))
         {
-            if (((1 << collision.gameObject.layer) & _layerMask) == 0)
-            {
-                return;
-            }
             _target = damageable;
         }
+        _effectController = collision.gameObject.GetComponent<EffectController>();
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -56,6 +59,16 @@ public class MeleAttackEnemy : Attackable
         {
             _timer = Time.time;
             DealDamage();
+            if (_effectController != null)
+            {
+                foreach (var item in _basicStatsEnemySO.basicStats.NegativeEffectDataList)
+                {
+                    if (item != null)
+                    {
+                        _effectController.AddStatus(item);
+                    }
+                }
+            }
         }
     }
     private void DealDamage()

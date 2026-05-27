@@ -30,7 +30,6 @@ public class BarController : MonoBehaviour
         _isText = _barText != null;
         RectTransform rect = _barHolder.GetComponent<RectTransform>();
         _barToChangeLimitWidth = rect.sizeDelta.x;
-        Debug.Log("_barToChangeLimitWidth: " + _barToChangeLimitWidth);
     }
 
     public void ChangeBar(int value, int max)

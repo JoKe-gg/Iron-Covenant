@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
+using Unity.VisualScripting;
 
 
 public class SpawnEnemiesController : MonoBehaviour
@@ -42,7 +43,8 @@ public class SpawnEnemiesController : MonoBehaviour
             Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
             Vector2 spawnPosition = (Vector2)_player.transform.position + direction * distance;
             Vector3Int cellPos = _arenaTileMap.WorldToCell(spawnPosition);
-            if (_arenaTileMap.HasTile(cellPos))
+            BoundsInt bounds = _arenaTileMap.cellBounds;
+            if (!_arenaTileMap.HasTile(cellPos))
             {
                 return spawnPosition;
             }

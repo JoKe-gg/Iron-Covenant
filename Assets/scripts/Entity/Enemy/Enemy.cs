@@ -7,7 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyBrain))]
 [RequireComponent(typeof(EnemyAnimator))]
 [RequireComponent(typeof(EffectController))]
-[RequireComponent(typeof(SortingLayerUpdate))]
 [RequireComponent(typeof(EnemySensor))]
 public class Enemy : MonoBehaviour, IPoolable
 {
@@ -35,7 +34,7 @@ public class Enemy : MonoBehaviour, IPoolable
     }
     public void OnSpawnFromPool()
     {
-
+        _effectController.ResetEffects();
     }
     public void OnReturnToPool()
     {

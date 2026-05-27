@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: US-Regeneration 1
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
   _id: 4
+  _upgradeTypes: 00000000
   _name: Regeneration
-  _description: Restore 10% of player health each second
+  _description: Restore 1% of player health each second
   _sprite: {fileID: 0}
   _level: 1
   _price: 0
@@ -28,11 +29,12 @@ MonoBehaviour:
       Source: {fileID: 0}
       IgnoreDefense: 0
       IgnoreInvincibility: 0
+    _level: 1
   _levelUpgradeData:
     _statType: 6
     _statModifierData:
     - _statModifierType: 0
-      _value: 0.1
+      _value: 0.01
   _stubData:
     _stubType: 0
     _value: 0

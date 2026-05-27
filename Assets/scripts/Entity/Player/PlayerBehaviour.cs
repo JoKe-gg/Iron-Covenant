@@ -9,6 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(TotalUpgradeStorage))]
 [RequireComponent(typeof(SortingLayerUpdate))]
 [RequireComponent(typeof(PlayerStatuses))]
+[RequireComponent(typeof(EffectController))]
 
 public class PlayerBehaviour : MonoBehaviour
 {

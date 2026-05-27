@@ -79,6 +79,9 @@ public class EnemyMovement : Movable
             return;
         }
         MoveToPlayer();
+    }
+    private void LateUpdate()
+    {
         Flip();
     }
     void OnEnable()
@@ -135,7 +138,7 @@ public class EnemyMovement : Movable
     }
     private void Flip()
     {
-        if (_lastFramePosition.x == transform.position.x) { return; }
+        if (Mathf.Abs(_lastFramePosition.x - transform.position.x) < 0.001f) { return; }
         _spriteRenderer.flipX = transform.position.x < _lastFramePosition.x;
         _lastFramePosition = transform.position;
     }

@@ -7,9 +7,9 @@ public class BurnEffect : Status
 {
     private IDamageable _damageable;
     private NegativeEffectData _effectData;
-    private GameObject _shareColliderHolder;
-    public void StartTimerToDestroy(float time) => StartCoroutine(RemoveAfterTime(time));
-    private void Start()
+    private Coroutine _tickCoroutine;
+    private float _intervalBetweenTicks;
+    private void Awake()
     {
         _damageable = GetComponent<IDamageable>();
     }
@@ -20,31 +20,29 @@ public class BurnEffect : Status
             _damageable.TakeDamage(_effectData.DamageData);
         }
     }
-    private void OnDestroy()
+    public override void Initialize(NegativeEffectData negativeEffectBurn)
     {
-        Destroy(_shareColliderHolder);
+        _effectData = negativeEffectBurn;
+        _intervalBetweenTicks = negativeEffectBurn.IntervalBetweenTicks;
+        _tickCoroutine = StartCoroutine(Tick());
+        _disableCoroutine = StartCoroutine(DisableAfterTime(_effectData.TimeOfEffect));
     }
-    public override void Initialize(NegativeEffectData negativeEffectPoison)
+    public override void UpdateData(NegativeEffectData negativeEffectData)
     {
-        GameObject shareColliderHolder = Instantiate(new GameObject(), transform, false);
-        CircleCollider2D collider = shareColliderHolder.AddComponent <CircleCollider2D>();
-        collider.radius = 0.8f;
-        ShareBurn shareBurn = shareColliderHolder.AddComponent<ShareBurn>();
-        shareBurn.Initialize(negativeEffectPoison);
-        _shareColliderHolder = shareColliderHolder;
-        _effectData = negativeEffectPoison;
-
-        StartCoroutine(BurnTick(0, negativeEffectPoison.IntervalBetweenTicks));
-        StartCoroutine(RemoveAfterTime(negativeEffectPoison.TimeOfEffect));
+        StopCoroutine(_disableCoroutine);
+        StopCoroutine(_tickCoroutine);
+        Initialize(negativeEffectData);
     }
-    protected IEnumerator BurnTick(float delay, float interval)
+    private void OnDisable()
     {
-        yield return new WaitForSeconds(delay);
-
+        StopCoroutine(_tickCoroutine);
+    }
+    protected override IEnumerator Tick()
+    {
         while (true)
         {
-            yield return new WaitForSeconds(interval);
             TakeBurnDamage();
+            yield return new WaitForSeconds(_intervalBetweenTicks);
         }
     }
 }

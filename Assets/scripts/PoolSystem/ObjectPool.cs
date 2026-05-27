@@ -82,7 +82,7 @@ public class ObjectPool<T> where T : Component
         {
             poolable.OnReturnToPool();
         }
-
+        obj.transform.SetParent(_parent);
         obj.gameObject.SetActive(false);
         _objectsInPool.Add(obj);
         _availableObjects.Enqueue(obj);

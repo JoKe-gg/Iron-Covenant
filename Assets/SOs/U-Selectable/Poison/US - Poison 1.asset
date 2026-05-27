@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: US - Poison 1
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
   _id: 1
+  _upgradeTypes: 01000000
   _name: Poison
   _description: Deals 2 poison damage each 0.4 sec. for 5 sec.
   _sprite: {fileID: 0}
@@ -28,6 +29,10 @@ MonoBehaviour:
       Source: {fileID: 0}
       IgnoreDefense: 1
       IgnoreInvincibility: 1
+    _level: 1
   _levelUpgradeData:
     _statType: 0
     _statModifierData: []
+  _stubData:
+    _stubType: 0
+    _value: 0

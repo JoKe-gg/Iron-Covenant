@@ -13,16 +13,20 @@ MonoBehaviour:
   m_Name: first enemy
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnSO
   _arena: first
-  _enemySpawnDatas:
+  _enemySpawnList:
   - _enemyPrefab: {fileID: 348572400559625969, guid: ca40ba1d253bc594bbfb977751587cb9, type: 3}
     _timeInterval: {x: 0, y: 3}
-    _enemyName: knight
+    _enemyName: 
     _enemySpawnType: 0
   - _enemyPrefab: {fileID: 348572400559625969, guid: 9e36ddc6a2eefd14f8beb39bdffb9f04, type: 3}
-    _timeInterval: {x: 0, y: 8}
-    _enemyName: knight
+    _timeInterval: {x: 2, y: 5}
+    _enemyName: 
+    _enemySpawnType: 0
+  - _enemyPrefab: {fileID: 348572400559625969, guid: a383810203c352a47bcfbe62ddee1a5e, type: 3}
+    _timeInterval: {x: 4, y: 10}
+    _enemyName: 
     _enemySpawnType: 0
   - _enemyPrefab: {fileID: 348572400559625969, guid: 509e6198093c0f241a6cbdf8f970f281, type: 3}
-    _timeInterval: {x: 5, y: 6}
-    _enemyName: BossKnight
+    _timeInterval: {x: 6, y: 10}
+    _enemyName: 
     _enemySpawnType: 2

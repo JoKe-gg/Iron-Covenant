@@ -16,11 +16,13 @@ public class NegativeEffectData
     [SerializeField] private float _timeOfEffect;
     [SerializeField] private float _intervalBetweenTicks;
     [SerializeField] private DamageData _damageData;
+    [SerializeField] private int _level;
 
     public StatusEffectType EffectType => _effectType;
     public float TimeOfEffect => _timeOfEffect;
     public float IntervalBetweenTicks => _intervalBetweenTicks;
-    public DamageData DamageData => _damageData;
+    public DamageData DamageData => _damageData; 
+    public int Level => _level;
     public NegativeEffectData(int amount, DamageType damageType, StatusEffectType statusEffectType, int level,
         GameObject source = null,
         bool ignoreDefense = false,
@@ -36,5 +38,9 @@ public class NegativeEffectData
         _effectType = statusEffectType;
         _intervalBetweenTicks = intervalBetweenTicks;
         _timeOfEffect = timeOfEffect;
+    }
+    public void SetLevel(int level)
+    {
+        _level = level;
     }
 }
