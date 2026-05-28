@@ -21,13 +21,10 @@ public class PlayerChoicesFiller : Savable
     public override void Load(DataSave dataSave)
     {
         _unlockedChoices.Clear();
-        string debugText = "";
         foreach(var value in dataSave.UnlockedPlayerChoiceList)
         {
             _unlockedChoices.Add(value.Id, new(value.Id, value.IsPurchased));
-            debugText += $"Unlocked player choice id =  {value.Id} is purchased : {value.IsPurchased}\n";
         }
-        Debug.Log(debugText);
     }
     public override void Save(DataSave dataSave)
     {

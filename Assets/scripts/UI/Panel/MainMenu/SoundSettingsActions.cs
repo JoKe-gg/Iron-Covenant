@@ -71,7 +71,6 @@ public class SoundSettingsActions : Savable
                 && slider.ExposedParameter != string.Empty)
             {
                 _audioMixer.GetFloat(slider.ExposedParameter, out float valueDB);
-                Debug.Log($"Audio mixer group value {slider.ExposedParameter} : {valueDB} ");
                 AudioMixerGroupSaveData audioMixerGroupSaveData = new(slider.ExposedParameter, valueDB);
                 audioMixerGroupSaveDatas.Add(audioMixerGroupSaveData);
             }

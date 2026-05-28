@@ -128,7 +128,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IChangingBar
     }
     public void RestoreHP(float hp) 
     {
-        _health += Mathf.RoundToInt(hp * _maxHealth);
+        if (hp <= 1) return;
+        _health += Mathf.RoundToInt((hp-1f) * _maxHealth);
         _health = Mathf.Clamp(_health, 0, _maxHealth);
         ChangeBar();
     }

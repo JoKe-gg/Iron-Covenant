@@ -57,7 +57,6 @@ public class CoinsManagerMainMenu : Savable
         {
             Coins = dataSave.Coins;
             OnCoinsChanged?.Invoke(Coins);
-            Debug.Log("Coins are accrued");
         }
     }
     public override void Save(DataSave dataSave)

@@ -30,7 +30,6 @@ public class RuntimeStats : MonoBehaviour
             KilledEnemiesDictionary.Add(enemyName, 1);
         }
         OnStatsChanged?.Invoke();
-        Debug.Log(GetKilledEnemiesToString());
     }
     public string GetKilledEnemiesToString()
     {

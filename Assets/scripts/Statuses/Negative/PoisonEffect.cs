@@ -21,18 +21,22 @@ public class PoisonEffect : Status
     }
     public override void Initialize(NegativeEffectData negativeEffectPoison)
     {
-        if (gameObject.activeInHierarchy)
+        if (gameObject.activeSelf)
         {
             _effectData = negativeEffectPoison;
             _intervalBetweenTicks = negativeEffectPoison.IntervalBetweenTicks;
-            _tickCoroutine = StartCoroutine(Tick());
-            _disableCoroutine = StartCoroutine(DisableAfterTime(_effectData.TimeOfEffect));
+            if (gameObject.activeSelf)
+                _tickCoroutine = StartCoroutine(Tick());
+            if (gameObject.activeSelf)
+                _disableCoroutine = StartCoroutine(DisableAfterTime(_effectData.TimeOfEffect));
         }
     }
     public override void UpdateData(NegativeEffectData negativeEffectData)
     {
-        StopCoroutine(_disableCoroutine); 
-        StopCoroutine(_tickCoroutine);
+        if (gameObject.activeSelf)
+            StopCoroutine(_disableCoroutine); 
+        if (gameObject.activeSelf)
+            StopCoroutine(_tickCoroutine);
         Initialize(negativeEffectData);
     }
     private void OnDisable()

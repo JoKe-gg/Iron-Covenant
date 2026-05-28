@@ -6,7 +6,6 @@ using Unity.VisualScripting;
 
 public class SpawnEnemiesController : MonoBehaviour
 {
-    [SerializeField] private List<EnemySpawnSO> _enemySpawnSOList;
     [SerializeField] private Tilemap _arenaTileMap;
     //Target to spawn around
     private GameObject _player;

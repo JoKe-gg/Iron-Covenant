@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 607ac0e44473c4c4bb827fabd2f1f130, type: 3}
-  m_Name: B-Knight
+  m_Name: B-BossKnight
   m_EditorClassIdentifier: Assembly-CSharp::BasicStatsEnemySO
-  _name: Knight
+  _name: Kinght King
   basicStats:
-    _enemyType: 0
-    _basicMaxHealth: 100
-    _basicResist: 5
-    _expForKillingRange: {x: 2, y: 8}
-    _coinsForKillingRange: {x: 0, y: 3}
+    _enemyType: 1
+    _basicMaxHealth: 5000
+    _basicResist: 7
+    _expForKillingRange: {x: 0, y: 0}
+    _coinsForKillingRange: {x: 250, y: 251}
     _data:
       _regards: 
       _playerId: 0
       _mapId: 0
     _basicDamageData:
-      Amount: 14
+      Amount: 20
       DamageType: 0
       Source: {fileID: 0}
       IgnoreDefense: 0
       IgnoreInvincibility: 0
     _negativeEffectData: []
-    _basicMovementSpeed: 1.5
+    _basicMovementSpeed: 2.5
     _intervalBetweenAttacks: 0.1

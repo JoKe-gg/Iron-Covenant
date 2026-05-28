@@ -17,7 +17,6 @@ public class AudioManager : Savable
         foreach (var audio in dataSave.AudioMixerGroupList)
         {
             _audioMixer.SetFloat(audio.Name, audio.Volume);
-            Debug.Log($"Saved volume {audio.Name} : {audio.Volume}");
         }
     }
     public override void Save(DataSave dataSave)

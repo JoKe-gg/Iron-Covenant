@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 607ac0e44473c4c4bb827fabd2f1f130, type: 3}
-  m_Name: BasicBoss
+  m_Name: B-Mouse
   m_EditorClassIdentifier: Assembly-CSharp::BasicStatsEnemySO
-  _name: Kinght King
+  _name: Mouse
   basicStats:
-    _enemyType: 1
-    _basicMaxHealth: 500
+    _enemyType: 0
+    _basicMaxHealth: 100
     _basicResist: 0
-    _expForKillingRange: {x: 5, y: 10}
-    _coinsForKillingRange: {x: 2, y: 8}
+    _expForKillingRange: {x: 2, y: 8}
+    _coinsForKillingRange: {x: 0, y: 3}
     _data:
-      _regards: 0000000001000000
-      _playerId: 1
-      _mapId: 2
+      _regards: 
+      _playerId: 0
+      _mapId: 0
     _basicDamageData:
-      Amount: 20
+      Amount: 10
       DamageType: 0
       Source: {fileID: 0}
       IgnoreDefense: 0
       IgnoreInvincibility: 0
     _negativeEffectData: []
-    _basicMovementSpeed: 3
+    _basicMovementSpeed: 1.5
     _intervalBetweenAttacks: 0.1

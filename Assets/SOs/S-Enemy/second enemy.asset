@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d3f87711423acb4e967fdb276c1b933, type: 3}
-  m_Name: first enemy
+  m_Name: second enemy
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnSO
-  _arena: first
+  _arena: second
   _enemySpawnList:
-  - _enemyPrefab: {fileID: 348572400559625969, guid: 3df886b51ff68444d8f7c70879d8a69d, type: 3}
+  - _enemyPrefab: {fileID: 348572400559625969, guid: 5044c514c9a892c42902f45c1226c41e, type: 3}
     _timeInterval: {x: 0, y: 4}
     _enemyName: 
     _enemySpawnType: 0
-  - _enemyPrefab: {fileID: 348572400559625969, guid: 9e36ddc6a2eefd14f8beb39bdffb9f04, type: 3}
-    _timeInterval: {x: 2, y: 6}
+  - _enemyPrefab: {fileID: 348572400559625969, guid: a383810203c352a47bcfbe62ddee1a5e, type: 3}
+    _timeInterval: {x: 3, y: 6}
     _enemyName: 
     _enemySpawnType: 0
-  - _enemyPrefab: {fileID: 348572400559625969, guid: 5044c514c9a892c42902f45c1226c41e, type: 3}
-    _timeInterval: {x: 4, y: 10}
+  - _enemyPrefab: {fileID: 348572400559625969, guid: ca40ba1d253bc594bbfb977751587cb9, type: 3}
+    _timeInterval: {x: 5, y: 9}
     _enemyName: 
     _enemySpawnType: 0
-  - _enemyPrefab: {fileID: 348572400559625969, guid: 2ad2fcb456f904c4fba41f7d48b5e311, type: 3}
-    _timeInterval: {x: 1, y: 10}
+  - _enemyPrefab: {fileID: 348572400559625969, guid: 509e6198093c0f241a6cbdf8f970f281, type: 3}
+    _timeInterval: {x: 8, y: 8.1}
     _enemyName: 
-    _enemySpawnType: 2
+    _enemySpawnType: 0

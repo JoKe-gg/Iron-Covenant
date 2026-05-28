@@ -44,7 +44,6 @@ public class SaveManagerSO : ScriptableObject
 
         string json = JsonUtility.ToJson(saveData, true);
         File.WriteAllText(_path, json);
-        Debug.Log("The game is saved");
         OnGameSaved?.Invoke();
     }
     public void LoadGame()

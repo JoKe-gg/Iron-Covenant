@@ -34,7 +34,7 @@ MonoBehaviour:
     _statType: 6
     _statModifierData:
     - _statModifierType: 0
-      _value: 0.01
+      _value: 1.01
   _stubData:
     _stubType: 0
     _value: 0
