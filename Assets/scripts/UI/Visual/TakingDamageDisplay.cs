@@ -16,7 +16,8 @@ public class TakingDamageDisplay : MonoBehaviour
         DamageDisplayPool poolDamageDisplay = GameManager.instance.DamageDisplayPool;
         foreach (var item in damageDisplayItemSetters)
         {
-            poolDamageDisplay.ReturnToPool(item);
+            if (item.transform.parent == transform)
+                poolDamageDisplay.ReturnToPool(item);
         }
         damageDisplayItemSetters.Clear();
     }

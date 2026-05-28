@@ -55,6 +55,5 @@ public class PlayerLevelSystem : MonoBehaviour, IChangingBar
         }
         ChangeBar();
         OnLevelUP?.Invoke(CurrentLevel);
-        _playerCalculateUpgrades.ReCalculate();
     }
 }

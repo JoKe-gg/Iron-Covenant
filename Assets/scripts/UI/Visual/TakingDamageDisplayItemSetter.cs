@@ -62,7 +62,7 @@ public class TakingDamageDisplayItemSetter : MonoBehaviour, IPoolable
         {
             if (_pool != null)
             {
-                _pool.ReturnToPool(this);
+                    _pool.ReturnToPool(this);
             }
             else
             {

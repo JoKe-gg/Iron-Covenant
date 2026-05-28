@@ -15,7 +15,7 @@ MonoBehaviour:
   _id: 2
   _upgradeTypes: 00000000
   _name: Health
-  _description: Add 10 max health
+  _description: Add 15 max health
   _sprite: {fileID: 0}
   _level: 2
   _price: 0

@@ -6,7 +6,7 @@ public class PlayerCalculateUpgrades : MonoBehaviour
 {
     private PlayerUpgradeDataBase _upgradeData;
     private TotalUpgradeStorage _totalUpgradeStorage;
-    private List<UpgradeSO> _levelUpgradeSOs;
+    private List<UpgradeSO> _levelUpgradeSOs ;
     private PlayerLevelSystem _playerLevelSystem;
     public event Action OnUpgradeCalculationFinished;
     void Start()
@@ -17,9 +17,9 @@ public class PlayerCalculateUpgrades : MonoBehaviour
         _levelUpgradeSOs = _upgradeData.GetLevelUpgradeSOList();
         if (_levelUpgradeSOs.Count > 0 )
         {
-            _upgradeData.OnUpgradeListChanged += ReCalculate;
             Calculate();
         }
+        _upgradeData.OnUpgradeListChanged += ReCalculate;
     }
     private void OnDisable()
     {
@@ -28,19 +28,16 @@ public class PlayerCalculateUpgrades : MonoBehaviour
             _upgradeData.OnUpgradeListChanged -= ReCalculate;
         }
     }
-    public void ReCalculate()
+    public void ReCalculate(List<UpgradeSO> levelUpgradeSOList)
     {
-        _levelUpgradeSOs = _upgradeData.GetLevelUpgradeSOList();
+        _levelUpgradeSOs = levelUpgradeSOList;
         Calculate();
     }
     private void Calculate()
     {
-        int currentPlayerLevel = _playerLevelSystem.CurrentLevel;
         _totalUpgradeStorage.ResetStorage();
 
-        List<UpgradeSO> levelUpgradeSOList = new(_levelUpgradeSOs);
-
-        foreach (var upgradeSO in levelUpgradeSOList)
+        foreach (var upgradeSO in _levelUpgradeSOs)
         {
             List<int> flatModifiers = new List<int>();
             List<float> multipleModifiers = new List<float>();

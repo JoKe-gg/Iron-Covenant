@@ -125,7 +125,6 @@ public class TotalUpgradeStorage : MonoBehaviour
     }
     private void OnUpgradeCalculationFinished()
     {
-        Debug();
     }
     public void Debug()
     {
