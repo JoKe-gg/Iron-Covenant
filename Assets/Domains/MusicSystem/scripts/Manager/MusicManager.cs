@@ -31,7 +31,17 @@ public class MusicManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        PauseManager.instance.OnPauseStatusChanged += OnPauseChanged;
+        if (PauseManager.instance != null)
+        {
+            PauseManager.instance.OnPauseStatusChanged += OnPauseChanged;
+        }
+    }
+    private void OnDisable()
+    {
+        if (PauseManager.instance != null)
+        {
+            PauseManager.instance.OnPauseStatusChanged -= OnPauseChanged;
+        }
     }
     private void OnPauseChanged(bool value)
     {
