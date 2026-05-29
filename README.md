@@ -1,2 +1,2 @@
-[Game logo](LogoV8.png)
+![Game logo](photoes for GitHub/LogoV8.png)
 # Iron Covenant
