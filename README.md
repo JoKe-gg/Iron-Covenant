@@ -36,10 +36,10 @@ Iron covenant is a game created with Unity Engine to learn and demonstrate gamep
     </ul>
   </li>
   <li> <a href = "#Challenges"> Challenges </a></li>
-  <li> <a href = "Future-Plans"> Technogies Plans</a> </li>
-  <li> <a href = "Controls"> Controls</a> </li>
-  <li> <a href = "Technogies-Used"> Technogies Used</a> </li>
-  <li> <a href = "Credits"> Credits</a> </li>
+  <li> <a href = "№Future-Plans"> Technogies Plans</a> </li>
+  <li> <a href = "№Controls"> Controls</a> </li>
+  <li> <a href = "№Technogies-Used"> Technogies Used</a> </li>
+  <li> <a href = "№Credits"> Credits</a> </li>
 </ul>
 
 <a id = "Technical-Features"></a>
