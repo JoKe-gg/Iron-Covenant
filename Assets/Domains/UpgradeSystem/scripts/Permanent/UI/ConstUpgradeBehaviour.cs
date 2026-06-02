@@ -15,12 +15,18 @@ public class ConstUpgradeBehaviour : MonoBehaviour
     public int Level { get; private set; } = 1;
     private int _price;
 
+    private Sprite _playerSprite;
+    private List<InfoTextData> _infoTextDatas;
+    private string _titleText;
+    private UiInfoPanelSetter _uiInfoPanelSetter;
+
     private void Awake()
     {
         _constUpgradeButton = GetComponent<Button>();
     }
-    public void Initialize(List<UpgradeSO> upgradeSOs, int startLevel)
+    public void Initialize(List<UpgradeSO> upgradeSOs, int startLevel, UiInfoPanelSetter uiInfoPanelSetter)
     {
+        _uiInfoPanelSetter = uiInfoPanelSetter;
         foreach (var upgradeSO in upgradeSOs)
         {
             _upgradeSODictionary[upgradeSO.Level] = upgradeSO;
@@ -41,7 +47,7 @@ public class ConstUpgradeBehaviour : MonoBehaviour
         }
         else
         {
-            _nameText.text = upgradeSO.name;
+            _nameText.text = upgradeSO.Name;
             _price = upgradeSO.Price;
             _priceText.text = _price.ToString();
             _constUpgradeSprite.sprite = upgradeSO.Sprite;
@@ -88,5 +94,91 @@ public class ConstUpgradeBehaviour : MonoBehaviour
         ConstUpgradeManager.instance.AddConstUpgrade(constUpgrade);
         Level++;
         SetCurrentLevel();
+    }
+
+    public void OnHoverInfoSet()
+    {
+        _uiInfoPanelSetter.Initialize(SetDescriptionText(_upgradeSODictionary[Level]), _upgradeSODictionary[Level].Name, _upgradeSODictionary[Level].Sprite);
+    }
+    private List<InfoTextData> SetDescriptionText(UpgradeSO upgradeSo)
+    {
+        List<InfoTextData> infoTextDatas = new List<InfoTextData>();
+        foreach (TypeOfAddedUpgrade typeOfAddedUpgrade in upgradeSo.UpgradeTypes)
+        {
+            switch (typeOfAddedUpgrade)
+            {
+                case TypeOfAddedUpgrade.newEffect:
+                    {
+                        infoTextDatas.Add(new("Effect", TextType.Title1, TMPro.TextAlignmentOptions.Midline));
+                        infoTextDatas.Add(new(SetEffectDescription(upgradeSo.EffectData), TextType.Paragraph, TMPro.TextAlignmentOptions.MidlineLeft));
+                        break;
+                    }
+                case TypeOfAddedUpgrade.statsModifier:
+                    {
+                        infoTextDatas.Add(new("Stat modifier", TextType.Title1, TMPro.TextAlignmentOptions.Midline));
+                        infoTextDatas.Add(new(SetStatDescription(upgradeSo.LevelUpgradeData), TextType.Paragraph, TMPro.TextAlignmentOptions.MidlineLeft));
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
+        return infoTextDatas;
+    }
+    private string SetStatDescription(LevelUPUpgradeData levelUpgradeData)
+    {
+        string text = $"Stat modifiers ({levelUpgradeData.StatType}) :\n";
+        int totalFlat = 0;
+        float TotalMultiple = 1;
+        foreach (StatModifierData statModifierData in levelUpgradeData.StatModifierData)
+        {
+            switch (statModifierData.StatModifierType)
+            {
+                case StatModifierType.Flat:
+                    {
+                        totalFlat += Mathf.FloorToInt(statModifierData.Value);
+                        break;
+                    }
+                case StatModifierType.Multiple:
+                    {
+                        TotalMultiple *= statModifierData.Value;
+                        break;
+                    }
+            }
+        }
+        if (totalFlat > 0)
+        {
+            text += $"Flat: {totalFlat}";
+        }
+        if (TotalMultiple > 1)
+        {
+            text += $"Multiple: {totalFlat}";
+        }
+        return text ;
+    }
+    private string SetEffectDescription(NegativeEffectData effectData)
+    {
+        string text = $"Effect modifiers :\n ";
+
+        switch (effectData.EffectType)
+        {
+            case StatusEffectType.Poison:
+                {
+                    text += $"Deals {effectData.DamageData.Amount} of {effectData.DamageData.DamageType} Damage each {effectData.IntervalBetweenTicks} for {effectData.TimeOfEffect}";
+                    break;
+                }
+            case StatusEffectType.Burn:
+                {
+                    text += $"Deals {effectData.DamageData.Amount} of {effectData.DamageData.DamageType} Damage each {effectData.IntervalBetweenTicks} for {effectData.TimeOfEffect}";
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+        return text;
     }
 }

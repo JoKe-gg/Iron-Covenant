@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: UP-Defence 1
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
   _id: 2
+  _upgradeTypes: 00000000
   _name: Defence
   _description: Grant defence
   _sprite: {fileID: 21300000, guid: 7d25ca4fe1a1ddb41ab205314530d59b, type: 3}
@@ -20,7 +21,6 @@ MonoBehaviour:
   _price: 100
   _effectData:
     _effectType: 0
-    _level: 0
     _timeOfEffect: 0
     _intervalBetweenTicks: 0
     _damageData:
@@ -29,8 +29,12 @@ MonoBehaviour:
       Source: {fileID: 0}
       IgnoreDefense: 0
       IgnoreInvincibility: 0
+    _level: 1
   _levelUpgradeData:
     _statType: 0
     _statModifierData:
     - _statModifierType: 1
       _value: 2
+  _stubData:
+    _stubType: 0
+    _value: 0

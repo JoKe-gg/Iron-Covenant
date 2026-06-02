@@ -15,4 +15,9 @@ MonoBehaviour:
   _name: Upgrade data base
   _upgradeList:
   - {fileID: 11400000, guid: db8100aa1477a9443a5793394707b288, type: 2}
+  - {fileID: 11400000, guid: 8dd4b4fdfdfc4ce48a9dfc444f569181, type: 2}
+  - {fileID: 11400000, guid: eeea809a558e7db4c841499cefe23885, type: 2}
   - {fileID: 11400000, guid: 2f7a2728fa400734e83a00a04e1f751f, type: 2}
+  - {fileID: 11400000, guid: 012f7a799a856d54fba8bb021af55998, type: 2}
+  - {fileID: 11400000, guid: aa0f49b3f3fdb4d4281973f4a4c820a8, type: 2}
+  _stubList: []

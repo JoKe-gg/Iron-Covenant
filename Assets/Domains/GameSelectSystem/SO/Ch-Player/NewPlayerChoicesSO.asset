@@ -16,16 +16,28 @@ MonoBehaviour:
     PlayerId: 0
     PlayerSprite: {fileID: -6510884235319969201, guid: cca55b2c2082b304687b11e64563d6e5, type: 3}
     WeaponSprite: {fileID: -138225970440836940, guid: a6a09577a7b2eb64fa35fd2fb18e6bf4, type: 3}
+    WeaponSpriteOnGame: {fileID: 21300000, guid: 1c9b61b7f980fb246989fafa77ee8de2, type: 3}
+    PlayerSpriteOnGame: {fileID: 21300000, guid: dd6d0530a80800145a017eb39df6e812, type: 3}
     PlayerName: Gunner
     Price: 0
+    basicStats: {fileID: 11400000, guid: 0727baff3da6c50489e93fd876493566, type: 2}
+    weaponStats: {fileID: 11400000, guid: 961a58ab944b5974895b57b16647f001, type: 2}
   _playerChoicesData:
   - PlayerId: 1
     PlayerSprite: {fileID: -6510884235319969201, guid: cca55b2c2082b304687b11e64563d6e5, type: 3}
     WeaponSprite: {fileID: 21300000, guid: 0762859cc1821b44ca6d8a01894938d0, type: 3}
+    WeaponSpriteOnGame: {fileID: 21300000, guid: ef86627c79787734db45919d874ec13a, type: 3}
+    PlayerSpriteOnGame: {fileID: 21300000, guid: dd6d0530a80800145a017eb39df6e812, type: 3}
     PlayerName: Knight
     Price: 1200
+    basicStats: {fileID: 11400000, guid: 0727baff3da6c50489e93fd876493566, type: 2}
+    weaponStats: {fileID: 11400000, guid: a7a10acc587515646bf577a8ee74b01d, type: 2}
   - PlayerId: 2
     PlayerSprite: {fileID: -6510884235319969201, guid: cca55b2c2082b304687b11e64563d6e5, type: 3}
     WeaponSprite: {fileID: 21300000, guid: 0762859cc1821b44ca6d8a01894938d0, type: 3}
+    WeaponSpriteOnGame: {fileID: 21300000, guid: ef86627c79787734db45919d874ec13a, type: 3}
+    PlayerSpriteOnGame: {fileID: 21300000, guid: dd6d0530a80800145a017eb39df6e812, type: 3}
     PlayerName: Knight
     Price: 2500
+    basicStats: {fileID: 11400000, guid: 0727baff3da6c50489e93fd876493566, type: 2}
+    weaponStats: {fileID: 11400000, guid: a7a10acc587515646bf577a8ee74b01d, type: 2}

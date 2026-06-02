@@ -1,6 +1,6 @@
 using UnityEngine;
 
-enum WeaponType 
+public enum WeaponType 
 {
     melee,
     range
@@ -23,7 +23,8 @@ public class WeaponStatsSO : ScriptableObject
     [SerializeField] private float _abilitySpeed;
     [SerializeField] private AudioClip _audioClip;
 
-    public int WeaponType => (int)_weaponType;
+    public int WeaponTypeInt => (int)_weaponType;
+    public WeaponType WeaponType => _weaponType;
     public string WeaponTypeName => _weaponType.ToString();
     public string WeaponName => _weaponName;
     public float ProjectileSpeed => _projectileSpeed;

@@ -665,6 +665,7 @@ GameObject:
   - component: {fileID: 9115792403746496086}
   - component: {fileID: 6560418013794663321}
   - component: {fileID: 4241239490144870651}
+  - component: {fileID: -7341892927747908590}
   m_Layer: 5
   m_Name: Map Choice
   m_TagString: Untagged
@@ -744,6 +745,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   _mapSprite: {fileID: 3830863458240507846}
   _mapName: {fileID: 7127251196868966484}
+--- !u!114 &-7341892927747908590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6869858265552897668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a1fa2f22ee36a04b852f4fc6b95b49b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &6931257052094556988
 GameObject:
   m_ObjectHideFlags: 0

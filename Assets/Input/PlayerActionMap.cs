@@ -154,6 +154,15 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""pause_WebGL"",
+                    ""type"": ""Button"",
+                    ""id"": ""4d39f03a-0cba-41f2-beef-f9efd11e339b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -233,6 +242,17 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
                     ""action"": ""ability"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fe8fcc97-561d-4442-a12e-d7e5c97ed33d"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""pause_WebGL"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -248,6 +268,7 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
         m_Player_attack = m_Player.FindAction("attack", throwIfNotFound: true);
         m_Player_ability = m_Player.FindAction("ability", throwIfNotFound: true);
         m_Player_pause = m_Player.FindAction("pause", throwIfNotFound: true);
+        m_Player_pause_WebGL = m_Player.FindAction("pause_WebGL", throwIfNotFound: true);
     }
 
     ~@PlayerActionMap()
@@ -335,6 +356,7 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_attack;
     private readonly InputAction m_Player_ability;
     private readonly InputAction m_Player_pause;
+    private readonly InputAction m_Player_pause_WebGL;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -374,6 +396,10 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/pause".
         /// </summary>
         public InputAction @pause => m_Wrapper.m_Player_pause;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/pause_WebGL".
+        /// </summary>
+        public InputAction @pause_WebGL => m_Wrapper.m_Player_pause_WebGL;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -421,6 +447,9 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
             @pause.started += instance.OnPause;
             @pause.performed += instance.OnPause;
             @pause.canceled += instance.OnPause;
+            @pause_WebGL.started += instance.OnPause_WebGL;
+            @pause_WebGL.performed += instance.OnPause_WebGL;
+            @pause_WebGL.canceled += instance.OnPause_WebGL;
         }
 
         /// <summary>
@@ -453,6 +482,9 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
             @pause.started -= instance.OnPause;
             @pause.performed -= instance.OnPause;
             @pause.canceled -= instance.OnPause;
+            @pause_WebGL.started -= instance.OnPause_WebGL;
+            @pause_WebGL.performed -= instance.OnPause_WebGL;
+            @pause_WebGL.canceled -= instance.OnPause_WebGL;
         }
 
         /// <summary>
@@ -542,5 +574,12 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPause(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "pause_WebGL" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPause_WebGL(InputAction.CallbackContext context);
     }
 }

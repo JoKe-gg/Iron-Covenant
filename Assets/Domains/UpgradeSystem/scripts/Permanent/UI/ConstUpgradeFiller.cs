@@ -6,6 +6,7 @@ public class ConstUpgradeFiller : MonoBehaviour
     [Header("Filler options")]
     [SerializeField] private Transform _content;
     [SerializeField] private GameObject _constPrefab;
+    [SerializeField] private UiInfoPanelSetter _uiInfoPanelSetter;
     private List<ConstUpgradeUIData> _constUpgradeBase = new();
     private Dictionary<int, ConstUpgradeBehaviour> _constUpgradeDictionary = new();
 
@@ -41,7 +42,7 @@ public class ConstUpgradeFiller : MonoBehaviour
             {
                 GameObject upgrade = Instantiate(_constPrefab, _content);
                 ConstUpgradeBehaviour constUpgradeBehaviour = upgrade.GetComponent<ConstUpgradeBehaviour>();
-                constUpgradeBehaviour.Initialize(constUpgradeSOs, constUpgrade.StartLevel);
+                constUpgradeBehaviour.Initialize(constUpgradeSOs, constUpgrade.StartLevel, _uiInfoPanelSetter);
                 _constUpgradeDictionary.Add(constUpgradeSOs[0].Id, constUpgradeBehaviour);
             }
         }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -6,6 +7,7 @@ public class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerEx
     [Header("Hover effect data")]
     [SerializeField] private Vector2 _scaleToChange;
     [SerializeField] private float _speedOfChangingScale = 1f;
+    [SerializeField] private UnityEvent _onHover;
     private RectTransform _rectTransform;
     private Vector3 _startScale;
     private Vector3 _currentRequiredScale;
@@ -42,6 +44,7 @@ public class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         _toChange = true;
         _currentRequiredScale = _scaleToChange;
+        _onHover?.Invoke();
     }
     public void OnPointerExit(PointerEventData eventData)
     {

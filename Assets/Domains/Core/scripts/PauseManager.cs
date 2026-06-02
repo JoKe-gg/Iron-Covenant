@@ -26,8 +26,13 @@ public class PauseManager : MonoBehaviour
     private void OnDisable() => _input?.Disable();
     private void Update()
     {
+#if UNITY_WEBGL
+    if (_input.Player.pause_WebGL.triggered)
 
-        if (_input.Player.pause.triggered)
+#else
+    if (_input.Player.pause.triggered)
+    SetPause(!isPaused);
+#endif
         {
             SetPause(!isPaused);
         }

@@ -8,8 +8,13 @@ public class PlayerChoiceData
     public int PlayerId;
     public Sprite PlayerSprite;
     public Sprite WeaponSprite;
+    public Sprite WeaponSpriteOnGame;
+    public Sprite PlayerSpriteOnGame;
     public string PlayerName;
     public int Price;
+
+    public PlayerBasicStatsSO basicStats;
+    public WeaponStatsSO weaponStats;
 }
 
 [CreateAssetMenu(fileName = "NewPlayerChoicesSO", menuName = "Scriptable Objects/PlayerChoicesSO")]

@@ -43,6 +43,8 @@ public class MainMenuActions : MonoBehaviour
         }
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_WEBGL
+        UnityEngine.Application.OpenURL("https://gokolokgjo.itch.io/iron-covenant");
 #else
         UnityEngine.Application.Quit();
 #endif 
