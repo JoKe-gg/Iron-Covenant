@@ -28,7 +28,7 @@ MonoBehaviour:
     Source: {fileID: 0}
     IgnoreDefense: 0
     IgnoreInvincibility: 0
-  _coolDown: 0.2
+  _coolDown: 0.3
   _abilityCoolDown: 4
   _penetration: 1
   _abilityPenetration: 50

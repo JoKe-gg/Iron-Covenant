@@ -5,7 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : Movable
 {
-    [SerializeField] private float _movementSpeed;
+    private float _movementSpeed;
+    private PlayerBehaviour _playerBehaviour;
     private SpriteRenderer _spriteRenderer;
     private PlayerActionMap input;
     private bool _isMoving = true;
@@ -13,6 +14,7 @@ public class PlayerMovement : Movable
     protected override void Awake()
     {
         base.Awake();
+        _playerBehaviour = GetComponent<PlayerBehaviour>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         input = new PlayerActionMap();
     }
@@ -31,6 +33,7 @@ public class PlayerMovement : Movable
         Vector2 screen = Mouse.current.position.ReadValue();
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(screen.x, screen.y, 0f));
         _lastFrameMousePosition = transform.position;
+        _movementSpeed = _playerBehaviour.PlayerBasicStatsSO.PlayerBasicStatsData.MovementSpeed;
     }
 
     void FixedUpdate()

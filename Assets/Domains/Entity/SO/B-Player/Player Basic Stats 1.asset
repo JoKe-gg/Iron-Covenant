@@ -17,3 +17,5 @@ MonoBehaviour:
   _playerBasicStatsData:
     _hP: 100
     _xP: 100
+    _resistance: 0
+    _movementSpeed: 4

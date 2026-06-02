@@ -12,4 +12,5 @@ public class PlayerBasicStatsSO : ScriptableObject
     public int Id => _id;
     public string PlayerName => _playerName;
     public PlayerBasicStatsData PlayerBasicStatsData => _playerBasicStatsData;
+    
 }
