@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 1516559206170956839}
   - component: {fileID: 3751825098914117996}
   - component: {fileID: 6414816343493486977}
+  - component: {fileID: 1079496326915818774}
   m_Layer: 6
   m_Name: Melee
   m_TagString: Player
@@ -196,12 +197,12 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: dd6d0530a80800145a017eb39df6e812, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e30cd79e1e046224f8a3080080c93843, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -271,8 +272,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3be64267f8e5564b8109b786ab60b9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _hpBarController: {fileID: 0}
   _invincibilityTime: 0.2
+  _hpBarController: {fileID: 0}
+  _regenInterval: 1
+  _regenNextTime: 0
 --- !u!114 &5269935437374109991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,7 +378,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 2, y: 2}
-    newSize: {x: 1, y: 1}
+    newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -406,7 +409,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9945c1f98056a64191cfe2eefc0769b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradeDataBase
-  _levelUpgradeBaseOrigin: {fileID: 11400000, guid: 10911fd651fbd3a4a8049ee4f166b128, type: 2}
+--- !u!114 &1079496326915818774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650035193259136406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52d65f1a2aedffc4684b57d58b6fcef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EffectController
 --- !u!1 &2550741600064685930
 GameObject:
   m_ObjectHideFlags: 0
