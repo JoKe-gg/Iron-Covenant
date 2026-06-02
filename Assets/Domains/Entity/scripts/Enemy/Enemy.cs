@@ -32,6 +32,17 @@ public class Enemy : MonoBehaviour, IPoolable
         _enemyAnimator = GetComponent<EnemyAnimator>();
         _enemySensor = GetComponent<EnemySensor>();
     }
+    private void Start()
+    {
+        _enemyBrain.OnStateChanged += OnStateChanged;
+    }
+    private void OnStateChanged(EnemyState state)
+    {
+        if (state == EnemyState.ToFar)
+        {
+            ReturnToPool();
+        }
+    }
     public void OnSpawnFromPool()
     {
         _effectController.ResetEffects();

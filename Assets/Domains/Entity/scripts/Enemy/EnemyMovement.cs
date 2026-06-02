@@ -65,13 +65,6 @@ public class EnemyMovement : Movable
         _toKnockBack = true;
         _knockBackSpeed = KnockBackSpeed;
     }
-    private void FixedUpdate()
-    {
-        if (!_isABleToMove)
-        {
-            return;
-        }
-    }
     private void Update()
     {
         if (!_isABleToMove )

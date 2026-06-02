@@ -21,14 +21,23 @@ public class EnemySensor : MonoBehaviour
             enabled = false;
         }
     }
-    private void Update()
+    private void FixedUpdate()
     {
+        if (_player != null)
+        {
+            if (Vector3.Distance(transform.position, _player.transform.position) > 40)
+            {
+                _enemyBrain.ChangeState(EnemyState.ToFar);
+
+                return;
+            }
+        }
         if (Time.time >= _nextUrgentTime)
         {
             UrgentTarget();
-            _nextUrgentTime = Time.time + _intervalBetweenUrgentPlayer;
-            
+            _nextUrgentTime = Time.time + _intervalBetweenUrgentPlayer; 
         }
+        
     }
     void UrgentTarget()
     {

@@ -4,6 +4,7 @@ public enum EnemyState
 {
     buttle,
     idle,
+    ToFar,
 }
 public class EnemyBrain : MonoBehaviour
 {
@@ -14,9 +15,6 @@ public class EnemyBrain : MonoBehaviour
     {
         _currentState = EnemyState.idle;
         OnStateChanged?.Invoke(_currentState);
-    }
-    private void OnDisable()
-    {
     }
     public void ChangeState(EnemyState state)
     {
