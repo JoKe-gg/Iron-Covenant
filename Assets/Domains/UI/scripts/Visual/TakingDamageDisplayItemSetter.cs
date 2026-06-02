@@ -22,6 +22,11 @@ public class TakingDamageDisplayItemSetter : MonoBehaviour, IPoolable
         _rectTransform = GetComponent<RectTransform>();
         _image = GetComponent<UnityEngine.UI.Image>();
     }
+    private void OnDisable()
+    {
+        if (_pool != null)
+        _pool.ReturnToPool(this);
+    }
     public void Initialize(RectTransform canvasRectTransform, int amountOfDamage, DamageDisplayPool pool, Color panelColor)
     {
         if (_isInitialized == true)
