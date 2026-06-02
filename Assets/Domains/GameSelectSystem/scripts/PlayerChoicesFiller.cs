@@ -78,7 +78,8 @@ public class PlayerChoicesFiller : Savable
     {
         string text = $"Character basic stats: \n" +
             $"Hp : {playerBasicStats.HP} \n" +
-            $"Resistance : {playerBasicStats.Resistance} \n";
+            $"Resistance : {playerBasicStats.Resistance} \n" +
+            $"Movement speed : {playerBasicStats.MovementSpeed} \n";
         return text;
     }
     private string SetWeaponDescriotion(WeaponStatsSO weaponStatsSO)
