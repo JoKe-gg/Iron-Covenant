@@ -183,7 +183,7 @@ I know that Unity Engine already has its own tool for pooling, but I wanted to p
 
 Each character has certain weapon. Each weapon inherits abstract class of Weapon that is keeping basic stats, required references and abstract methods.
 
-For now there are two characters with two conceptually different weapons. they both work not with amount of damage, but with damage data class that includes damage type, amount, flags to ignore defence or invincibility and source of damage. Each of them has two attack types (regular and ability):
+For now there are a few characters with conceptually different weapons. they both work not with amount of damage, but with damage data class that includes damage type, amount, flags to ignore defence or invincibility and source of damage. Each of them has two attack types (regular and ability):
 
 * knight with a sword:
   * Melee attack works with animation clip events. They are activating and deactivating collider of attack area.
@@ -194,6 +194,10 @@ For now there are two characters with two conceptually different weapons. they b
     * Each projectile has it's own stats, that are being set in initialization (damage data, penetration, speed, life time)
     * Projectile has its own collider with trigger-on;
   * ability attack is shooting ability-projectile from another pool. It has infinite penetration and it's own stats.
+* Wizard with a staff
+  * Regular attack: shooting spell. (regular projectile as a bullet).
+  * Ability: casting spell that creates wall pushing everybody on it's road (except Bosses).
+    * Doesn't deal any damage.
 
 Both use collider to interact with any entity that has class inherited from damageable interface (IDamageable). 
 Basic stats of weapon define who is the trigger by layer mask.
