@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
-using UnityEditor.MPE;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
