@@ -8,7 +8,7 @@ public class MeleeAttackBehaviour : MonoBehaviour
     [SerializeField] private Collider2D _collider;
 
     private DamageData _damageData = null;
-    private List<NegativeEffectData> _effectsList;
+    private List<NegativeEffectData> _effectsList = new();
 
     private void Awake()
     {
@@ -34,6 +34,11 @@ public class MeleeAttackBehaviour : MonoBehaviour
 
         if (collision.TryGetComponent(out IDamageable damageable))
         {
+            if (_damageData == null)
+            {
+                Debug.LogWarning("Damage data is not set");
+                return;
+            }
             damageable.TakeDamage(_damageData, 4f);
             if (collision.TryGetComponent(out EffectController effectController))
             {

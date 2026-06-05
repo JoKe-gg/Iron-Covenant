@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class Spelling : Weapon
@@ -14,7 +11,6 @@ public class Spelling : Weapon
     [SerializeField] private RegularProjectileBehaviour _regularProjectile;
     [Header("Anchored transform")]
     [SerializeField] private Transform _anchoredPosition;
-    private TotalUpgrade _damageUpgrade;
     private ProjectilePool _projectilePool;
     private ProjectilePool _abilityProjectilePool;
     protected override void Awake()
@@ -68,7 +64,7 @@ public class Spelling : Weapon
     {
         MusicManager.instance.PlayEffect(_weaponStatsSO.AudioClip);
         DamageData _basicDamageData = _weaponStatsSO.DamageData;
-        DamageData damage = GetDamage(_basicDamageData);
+        DamageData damage = CalculateDamage(_basicDamageData);
         float speed = _weaponStatsSO.Speed * 2f * (_weaponTransform.IsFlipped() ? -1 : 1);
         bool flipX = _weaponTransform.IsFlipped();
         RegularProjectileBehaviour bulletBehaviour = _projectilePool.GetProjectile().GetComponent<RegularProjectileBehaviour>();

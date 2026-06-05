@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 [RequireComponent(typeof(WeaponTransform))]
@@ -116,7 +114,7 @@ public abstract class Weapon : MonoBehaviour
     protected abstract void Attack();
     protected abstract void UseAbility();
 
-    protected DamageData GetDamage(DamageData damage)
+    protected DamageData CalculateDamage(DamageData damage)
     {
         int amountOfDamage = damage.Amount;
         List<int> flatModifiers = new List<int>();

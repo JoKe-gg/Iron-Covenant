@@ -11,12 +11,9 @@ public class Melee : Weapon
 {
     [SerializeField] private WeaponStatsSO _weaponStatsSO;
     [SerializeField] private WeaponTransform _weaponTransform;
-    private TotalUpgrade _damageUpgrade;
-    private DamageData _baseDamageData;
-    private DamageData _baseAbilityDamageData;
     private DamageData _damageData;
     private DamageData _abilityDamageData;
-    [SerializeField]private MeleeAttackBehaviour _meleeAttackBehaviour;
+    [SerializeField] private MeleeAttackBehaviour _meleeAttackBehaviour;
     [SerializeField] private Animator _animator;
     protected override void Start()
     {
@@ -54,22 +51,21 @@ public class Melee : Weapon
             Destroy(gameObject);
             return;
         }
-        _baseDamageData = _weaponStatsSO.DamageData; 
-        _baseAbilityDamageData = _weaponStatsSO.AbilityDamageData;
         SetCooldown(_weaponStatsSO.CoolDown);
+        SetAbilityCooldown(_weaponStatsSO.AbilityCoolDown);
     }
     protected override void Attack()
     {
         MusicManager.instance.PlayEffect(_weaponStatsSO.AudioClip);
-        _meleeAttackBehaviour.SetDamage(_damageData);
+        _meleeAttackBehaviour.SetDamage(CalculateDamage(_weaponStatsSO.DamageData));
+        _meleeAttackBehaviour.SetEffectsList(_effectsData);
         SeSetAnimatorState(WeaponState.Attack);
-        _cooldown = _weaponStatsSO.CoolDown;
-        _abilityCooldown = _weaponStatsSO.AbilityCoolDown;
     }
     protected override void UseAbility()
     {
         MusicManager.instance.PlayEffect(_weaponStatsSO.AbilityAudioClip);
-        _meleeAttackBehaviour.SetDamage(_abilityDamageData);
+        _meleeAttackBehaviour.SetDamage(CalculateDamage(_weaponStatsSO.AbilityDamageData));
+        _meleeAttackBehaviour.SetEffectsList(_effectsData);
         SeSetAnimatorState(WeaponState.Ability);
     }
     public void EnableAttackCollider() {

@@ -12,7 +12,6 @@ public class Shooting : Weapon
     [SerializeField] private RegularProjectileBehaviour _regularProjectile;
     [Header("Anchored transform")]
     [SerializeField] private Transform _anchoredPosition;
-    private SpriteRenderer _spriteRenderer;
     private ProjectilePool _projectilePool;
     private ProjectilePool _abilityProjectilePool;
     private TotalUpgrade _damageUpgrade;
@@ -67,9 +66,9 @@ public class Shooting : Weapon
     {
         MusicManager.instance.PlayEffect(_weaponStatsSO.AudioClip);
         DamageData _basicDamageData = _weaponStatsSO.DamageData;
-        DamageData damage = GetDamage(_basicDamageData);
+        DamageData damage = CalculateDamage(_basicDamageData);
         float speed = _weaponStatsSO.Speed * 2f * (_weaponTransform.IsFlipped() ? -1 : 1);
-        bool flipX = _spriteRenderer.flipX;
+        bool flipX = _weaponTransform.IsFlipped();
         RegularProjectileBehaviour bulletBehaviour = _projectilePool.GetProjectile().GetComponent<RegularProjectileBehaviour>();
         bulletBehaviour.transform.localRotation = transform.localRotation; 
         bulletBehaviour.Initialize(_effectsData, gameObject, _anchoredPosition.position, transform, damage, _weaponStatsSO.Penetration, speed, _projectilePool, flipX, 2f);
@@ -78,20 +77,11 @@ public class Shooting : Weapon
     {
         MusicManager.instance.PlayEffect(_weaponStatsSO.AbilityAudioClip);
         DamageData _basicDamageData = _weaponStatsSO.AbilityDamageData;
-        DamageData damage = GetDamage(_basicDamageData);
+        DamageData damage = CalculateDamage(_basicDamageData);
         float speed = _weaponStatsSO.AbilitySpeed * 2f * (_weaponTransform.IsFlipped() ? -1 : 1);
-        bool flipX = _spriteRenderer.flipX;
+        bool flipX = _weaponTransform.IsFlipped();
         RegularProjectileBehaviour bulletBehaviour = _abilityProjectilePool.GetProjectile().GetComponent<RegularProjectileBehaviour>();
         bulletBehaviour.transform.localRotation = transform.localRotation;
         bulletBehaviour.Initialize(_effectsData, gameObject, _anchoredPosition.position, transform, damage, _weaponStatsSO.AbilityPenetration, speed, _abilityProjectilePool, flipX, 5f);
-    }
-    private void UpdateUpgrade()
-    {
-        _damageUpgrade = _totalUpgradeStorage.GetTotalUpgrade(StatType.Damage);
-        if (_damageUpgrade == null)
-        {
-            Debug.LogWarning("Damage upgrade not ready yet");
-            return;
-        }
     }
 }
