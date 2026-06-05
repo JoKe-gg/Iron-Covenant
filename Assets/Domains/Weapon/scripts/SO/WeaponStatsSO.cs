@@ -9,19 +9,23 @@ public enum WeaponType
 [CreateAssetMenu(fileName = "WeaponStatsSO", menuName = "Scriptable Objects/WeaponStatsSO")]
 public class WeaponStatsSO : ScriptableObject
 {
+    [Header("Id")]
     [SerializeField] private WeaponType _weaponType;
     [SerializeField] private string _weaponName;
+    [Header("Regular")]
     [SerializeField] private float _projectileSpeed;
-    [SerializeField] private float _abilityProjectileSpeed;
     [SerializeField] private DamageData _damageData;
-    [SerializeField] private DamageData _abilityDamageData;
     [SerializeField] private float _coolDown;
-    [SerializeField] private float _abilityCoolDown;
     [SerializeField] private int _penetration;
-    [SerializeField] private int _abilityPenetration;
     [SerializeField] private float _speed;
-    [SerializeField] private float _abilitySpeed;
     [SerializeField] private AudioClip _audioClip;
+    [Header("Ability")]
+    [SerializeField] private float _abilityProjectileSpeed;
+    [SerializeField] private DamageData _abilityDamageData;
+    [SerializeField] private float _abilityCoolDown;
+    [SerializeField] private int _abilityPenetration;
+    [SerializeField] private float _abilitySpeed;
+    [SerializeField] private AudioClip _abilityAudioClip;
 
     public int WeaponTypeInt => (int)_weaponType;
     public WeaponType WeaponType => _weaponType;
@@ -38,4 +42,5 @@ public class WeaponStatsSO : ScriptableObject
     public float Speed => _speed;
     public float AbilitySpeed => _abilitySpeed;
     public AudioClip AudioClip => _audioClip;
+    public AudioClip AbilityAudioClip => _abilityAudioClip;
 }

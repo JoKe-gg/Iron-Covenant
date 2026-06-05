@@ -3,7 +3,7 @@ using UnityEngine;
 public class CurrentArenaHolderManager : MonoBehaviour
 {
     public static CurrentArenaHolderManager Instance;
-    public int currentPlayerID { get; private set; } = 0;
+    public int currentPlayerID { get; private set; } = 2;
     public int currentMapID { get; private set; } = 1;
 
 

@@ -1,8 +1,8 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 public class PlayerSpawnManager : MonoBehaviour
 {
-    [SerializeField] private GameObject[] _playerPrefabs;
+    [SerializeField] private CharacterSpawnSO _characterSpawnSO;
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private int _currentIndex;
 
@@ -12,6 +12,6 @@ public class PlayerSpawnManager : MonoBehaviour
     {
         _currentIndex = CurrentArenaHolderManager.Instance.currentPlayerID;
         if (GameObject.FindGameObjectWithTag("Player") == null)
-        CurrentPlayer = Instantiate(_playerPrefabs[_currentIndex], _spawnPoint.position, Quaternion.identity);
+        CurrentPlayer = Instantiate(_characterSpawnSO.CharacterSpawnList[_currentIndex], _spawnPoint.position, Quaternion.identity);
     }
 }
