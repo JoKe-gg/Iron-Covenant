@@ -27,15 +27,14 @@ public class PauseManager : MonoBehaviour
     private void Update()
     {
 #if UNITY_WEBGL
-    if (_input.Player.pause_WebGL.triggered)
-
+    if (_input.Player.pause_WebGL.triggered){
+            SetPause(!isPaused);
+    }
 #else
-    if (_input.Player.pause.triggered)
-    SetPause(!isPaused);
-#endif
-        {
+        if (_input.Player.pause.triggered){
             SetPause(!isPaused);
         }
+#endif
     }
     public void SetPause(bool value, bool callInvoke = true)
     {
