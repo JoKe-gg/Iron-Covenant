@@ -20,8 +20,8 @@ MonoBehaviour:
     _expForKillingRange: {x: 0, y: 0}
     _coinsForKillingRange: {x: 250, y: 251}
     _data:
-      _regards: 
-      _playerId: 0
+      _regards: 00000000
+      _playerId: 2
       _mapId: 0
     _basicDamageData:
       Amount: 20
