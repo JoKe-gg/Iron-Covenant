@@ -9,9 +9,6 @@ public class GameOverController : MonoBehaviour
     {
         PlayerSpawnManager.CurrentPlayer.GetComponent<PlayerHealth>().OnPlayerDied += OnPlayerDied;
         _gameOverPanel.SetActive(false);
-    }
-    private void OnEnable()
-    {
         StateManager.instance.OnStateChanged += OnRuntimeStateChanged;
     }
     private void OnRuntimeStateChanged(RuntimeState state)

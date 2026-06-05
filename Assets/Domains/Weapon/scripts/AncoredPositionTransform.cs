@@ -24,7 +24,7 @@ public class AncoredPositionTransform : MonoBehaviour
     }
     private void ChangeOffset()
     {
-        transform.localPosition = new Vector2(_localPosition.x * (IsParentFlipped() ? -1 : 1), _localPosition.y * (IsParentFlipped() ? -1 : 1));
+        transform.localPosition = new Vector2(_localPosition.x * (IsParentFlipped() ? -1 : 1), _localPosition.y);
         
         if (_optionalWeaponCollider != null)
         {

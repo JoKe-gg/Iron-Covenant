@@ -15,22 +15,24 @@ MonoBehaviour:
   _weaponType: 0
   _weaponName: 
   _projectileSpeed: 0
-  _abilityProjectileSpeed: 0
   _damageData:
     Amount: 20
     DamageType: 0
     Source: {fileID: 0}
     IgnoreDefense: 0
     IgnoreInvincibility: 0
+  _coolDown: 0.2
+  _penetration: 0
+  _speed: 0
+  _audioClip: {fileID: 8300000, guid: c852e61b247627c4aa2ff15d844cf96d, type: 3}
+  _abilityProjectileSpeed: 0
   _abilityDamageData:
     Amount: 30
     DamageType: 0
     Source: {fileID: 0}
     IgnoreDefense: 0
     IgnoreInvincibility: 0
-  _coolDown: 0.2
   _abilityCoolDown: 10
-  _penetration: 0
   _abilityPenetration: 0
-  _speed: 0
   _abilitySpeed: 0
+  _abilityAudioClip: {fileID: 8300000, guid: 73b5bf5d12d0d0a4d950cb0c502c9090, type: 3}

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: -8845002090072535259}
   - component: {fileID: 833215532804708298}
   - component: {fileID: 6155013728698508090}
+  - component: {fileID: 750332194154802772}
   m_Layer: 6
   m_Name: gunner
   m_TagString: Player
@@ -157,7 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0d96ffe14e2301418001ad997acd42a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _movementSpeed: 6
 --- !u!114 &2045347992232539787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,8 +170,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3be64267f8e5564b8109b786ab60b9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _hpBarController: {fileID: 0}
   _invincibilityTime: 0.2
+  _hpBarController: {fileID: 0}
+  _regenInterval: 1
+  _regenNextTime: 0
 --- !u!114 &6005634081991582724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,7 +261,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9945c1f98056a64191cfe2eefc0769b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradeDataBase
-  _levelUpgradeBaseOrigin: {fileID: 11400000, guid: 10911fd651fbd3a4a8049ee4f166b128, type: 2}
 --- !u!61 &6155013728698508090
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -306,6 +307,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.71204627, y: 1.5015969}
   m_EdgeRadius: 0
+--- !u!114 &750332194154802772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275354524097758809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52d65f1a2aedffc4684b57d58b6fcef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EffectController
 --- !u!1 &1826834701684643836
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,11 +553,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a880068dbe39964458ebb1f69df6f12e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _effectsData: []
-  _weaponStatsSO: {fileID: 11400000, guid: 961a58ab944b5974895b57b16647f001, type: 2}
   _playerCalculateUpgrades: {fileID: 8405595244681605223}
-  _anchoredPosition: {fileID: 232048018733200231}
+  _effectsData: []
   _weaponTransform: {fileID: 7595939672081149244}
+  _weaponStatsSO: {fileID: 11400000, guid: 961a58ab944b5974895b57b16647f001, type: 2}
+  _abilityProjectile: {fileID: 7829232944983582328, guid: d5e7941860417454a94e3a30c02e4c95, type: 3}
+  _regularProjectile: {fileID: 3296576591499682137, guid: b15271bb4a9bcab4094101f6d581b720, type: 3}
+  _anchoredPosition: {fileID: 232048018733200231}
 --- !u!114 &2609712467428055350
 MonoBehaviour:
   m_ObjectHideFlags: 0

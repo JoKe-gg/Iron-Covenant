@@ -17,6 +17,10 @@ public class InitializeEndMatchStats : MonoBehaviour
     {
         Dictionary<string, int> stats = RuntimeStats.Instance.KilledEnemiesDictionary;
 
+        foreach (Transform child in _content)
+        {
+            Destroy(child.gameObject);
+        }
         foreach(var item in stats)
         {
             InitializableEnemyKilledAmount newStatPanel = Instantiate(_prefab, _content);

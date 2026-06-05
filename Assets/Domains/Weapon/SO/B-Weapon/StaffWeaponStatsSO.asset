@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c376223d19a29f945a7158b808db2d0c, type: 3}
-  m_Name: GunWeaponStatsSO 1
+  m_Name: StaffWeaponStatsSO
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStatsSO
   _weaponType: 1
-  _weaponName: BasicGun
+  _weaponName: Basic staff
   _projectileSpeed: 2
   _damageData:
     Amount: 20
-    DamageType: 0
+    DamageType: 5
     Source: {fileID: 0}
     IgnoreDefense: 0
     IgnoreInvincibility: 0
   _coolDown: 0.3
   _penetration: 1
   _speed: 20
-  _audioClip: {fileID: 8300000, guid: 1e16c40a3864da14fa04f5f37a2b562e, type: 3}
+  _audioClip: {fileID: 8300000, guid: a164480da76de5c479efaec9aff9d8ec, type: 3}
   _abilityProjectileSpeed: 4
   _abilityDamageData:
-    Amount: 50
+    Amount: 0
     DamageType: 0
     Source: {fileID: 0}
     IgnoreDefense: 0
@@ -35,4 +35,4 @@ MonoBehaviour:
   _abilityCoolDown: 4
   _abilityPenetration: 50
   _abilitySpeed: 10
-  _abilityAudioClip: {fileID: 8300000, guid: 2cfa94536b9b16a4b9f34ff4a95f9121, type: 3}
+  _abilityAudioClip: {fileID: 8300000, guid: b667d4891c3b35148a75b15a06368533, type: 3}

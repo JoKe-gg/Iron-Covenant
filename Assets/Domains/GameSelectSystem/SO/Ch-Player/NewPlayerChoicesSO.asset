@@ -32,3 +32,12 @@ MonoBehaviour:
     Price: 1200
     basicStats: {fileID: 11400000, guid: 0727baff3da6c50489e93fd876493566, type: 2}
     weaponStats: {fileID: 11400000, guid: a7a10acc587515646bf577a8ee74b01d, type: 2}
+  - PlayerId: 2
+    PlayerSprite: {fileID: 1892511071537953791, guid: 5d144269f15ccb543840e4d36ae988a5, type: 3}
+    WeaponSprite: {fileID: 5742014806724188929, guid: a56a58cd6287ba244aebc19267265ce0, type: 3}
+    WeaponSpriteOnGame: {fileID: 21300000, guid: 545aa405743cfd642b99c2fabd2eacdf, type: 3}
+    PlayerSpriteOnGame: {fileID: 21300000, guid: f3a9aa3628ad744449b7d3ee6d18f18d, type: 3}
+    PlayerName: Wizard
+    Price: 5000
+    basicStats: {fileID: 11400000, guid: 0727baff3da6c50489e93fd876493566, type: 2}
+    weaponStats: {fileID: 11400000, guid: 23eba484f855ed742b5d1edd5ff06246, type: 2}
