@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody2D))]
-public class BulletBehaviour : MonoBehaviour, IPoolable
+public class RegularProjectileBehaviour : Projectile, IPoolable
 {
     [SerializeField] private LayerMask _enemyMask;
     [SerializeField] private LayerMask _wallMask;
@@ -95,8 +95,15 @@ public class BulletBehaviour : MonoBehaviour, IPoolable
     private void ReturnToPool()
     {
         if (_isAbleToReturn){
-            _isAbleToReturn = false;
-            _projectilePool.ReturnProjectile(this);
+            if (_projectilePool != null)
+            {
+                _isAbleToReturn = false;
+                _projectilePool.ReturnProjectile(this);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
     private IEnumerator TimerToReturnToPool()

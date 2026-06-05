@@ -3,21 +3,18 @@ using UnityEngine;
 
 public class ProjectilePool : MonoBehaviour
 {
-    [SerializeField] private BulletBehaviour _prefab;
-    [SerializeField] private int _maxProjectiles = 300;
-    private ObjectPool<BulletBehaviour> _pool;
+    private ObjectPool<Projectile> _pool = null;
 
-    [SerializeField] private int _startCount = 0;
-    private void Awake()
+    public void Initialize(Projectile prefab, int startCount, int maxProjectiles)
     {
-        _pool = new ObjectPool<BulletBehaviour>(_prefab, _startCount, transform, _maxProjectiles);
+        _pool = new ObjectPool<Projectile>(prefab, startCount, transform, maxProjectiles);
     }
-    public BulletBehaviour GetProjectile()
+    public Projectile GetProjectile()
     {
-        return _pool.Get();;
+        return _pool.Get();
     }
 
-    public void ReturnProjectile(BulletBehaviour projectile)
+    public void ReturnProjectile(Projectile projectile)
     {
         _pool.Return(projectile);
     }

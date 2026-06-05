@@ -3,10 +3,15 @@ using UnityEngine;
 
 public class Shooting : Weapon
 {
-    [SerializeField] private WeaponStatsSO _weaponStatsSO;
-    [SerializeField] private PlayerCalculateUpgrades _playerCalculateUpgrades;
-    [SerializeField] private Transform _anchoredPosition;
+    [Header("Components")]
     [SerializeField] private WeaponTransform _weaponTransform;
+    [Header("Weapon stats")]
+    [SerializeField] private WeaponStatsSO _weaponStatsSO;
+    [Header("Projectiles")]
+    [SerializeField] private RegularProjectileBehaviour _abilityProjectile;
+    [SerializeField] private RegularProjectileBehaviour _regularProjectile;
+    [Header("Anchored transform")]
+    [SerializeField] private Transform _anchoredPosition;
     private SpriteRenderer _spriteRenderer;
     private ProjectilePool _projectilePool;
     private ProjectilePool _abilityProjectilePool;
@@ -14,32 +19,10 @@ public class Shooting : Weapon
     protected override void Awake()
     {
         base.Awake();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-    protected override void Start()
-    {
-        base.Start();
         bool error = false;
-        _projectilePool = GameManager.instance.ProjectilePool;
-        _abilityProjectilePool = GameManager.instance.AbilityProjectilePool;
-        if (_projectilePool == null)
-        {
-            Debug.LogError($"Null reference to {nameof(_projectilePool)} in the script {nameof(Shooting)}");
-            error = true;
-        }
-        if (_abilityProjectilePool == null)
-        {
-            Debug.LogError($"Null reference to {nameof(_abilityProjectilePool)} in the script {nameof(Shooting)}");
-            error = true;
-        }
         if (_weaponTransform == null)
         {
             _weaponTransform = GetComponent<WeaponTransform>();
-        }
-        if (_playerCalculateUpgrades == null) 
-        {
-            Debug.LogError($"Null reference to {nameof(_playerCalculateUpgrades)} in the script {nameof(Shooting)}");
-            error = true;
         }
         if (_totalUpgradeStorage == null)
         {
@@ -63,12 +46,22 @@ public class Shooting : Weapon
         }
         SetCooldown(_weaponStatsSO.CoolDown);
         SetAbilityCooldown(_weaponStatsSO.AbilityCoolDown);
-        _playerCalculateUpgrades.OnUpgradeCalculationFinished += UpdateUpgrade;
-        UpdateUpgrade();
     }
-    private void OnDestroy()
+    protected override void Start()
     {
-        _playerCalculateUpgrades.OnUpgradeCalculationFinished -= UpdateUpgrade;
+
+        base.Start();
+        if (GameManager.instance != null)
+        {
+            _projectilePool = GameManager.instance.InitializeProjectilePool(_regularProjectile, 20, 200);
+            _abilityProjectilePool = GameManager.instance.InitializeProjectilePool(_abilityProjectile, 3, 20);
+        }
+        else
+        {
+            Debug.LogError($"{nameof(GameManager.instance)} not exists in class {nameof(Spelling)}", this);
+            Destroy(gameObject);
+            return;
+        }
     }
     protected override void Attack()
     {
@@ -77,18 +70,18 @@ public class Shooting : Weapon
         DamageData damage = GetDamage(_basicDamageData);
         float speed = _weaponStatsSO.Speed * 2f * (_weaponTransform.IsFlipped() ? -1 : 1);
         bool flipX = _spriteRenderer.flipX;
-        BulletBehaviour bulletBehaviour = _projectilePool.GetProjectile();
+        RegularProjectileBehaviour bulletBehaviour = _projectilePool.GetProjectile().GetComponent<RegularProjectileBehaviour>();
         bulletBehaviour.transform.localRotation = transform.localRotation; 
         bulletBehaviour.Initialize(_effectsData, gameObject, _anchoredPosition.position, transform, damage, _weaponStatsSO.Penetration, speed, _projectilePool, flipX, 2f);
     }
     protected override void UseAbility()
     {
-        MusicManager.instance.PlayEffect(_weaponStatsSO.AudioClip);
+        MusicManager.instance.PlayEffect(_weaponStatsSO.AbilityAudioClip);
         DamageData _basicDamageData = _weaponStatsSO.AbilityDamageData;
         DamageData damage = GetDamage(_basicDamageData);
         float speed = _weaponStatsSO.AbilitySpeed * 2f * (_weaponTransform.IsFlipped() ? -1 : 1);
         bool flipX = _spriteRenderer.flipX;
-        BulletBehaviour bulletBehaviour = _abilityProjectilePool.GetProjectile();
+        RegularProjectileBehaviour bulletBehaviour = _abilityProjectilePool.GetProjectile().GetComponent<RegularProjectileBehaviour>();
         bulletBehaviour.transform.localRotation = transform.localRotation;
         bulletBehaviour.Initialize(_effectsData, gameObject, _anchoredPosition.position, transform, damage, _weaponStatsSO.AbilityPenetration, speed, _abilityProjectilePool, flipX, 5f);
     }
@@ -100,58 +93,5 @@ public class Shooting : Weapon
             Debug.LogWarning("Damage upgrade not ready yet");
             return;
         }
-    }
-    private DamageData GetDamage(DamageData damage)
-    {
-        int amountOfDamage = damage.Amount;
-        List<int> flatModifiers = new List<int>();
-        List<float> multipleModifiers = new List<float>();
-        int totalFlat = 0;
-        float totalMultiple = 1;
-        if (_damagePermanentUpgrade != null)
-        {
-            var statModifierDatas = _damagePermanentUpgrade.StatModifierData;
-
-            foreach (var statModifierData in statModifierDatas)
-            {
-                switch (statModifierData.StatModifierType)
-                {
-                    case StatModifierType.Flat:
-                        flatModifiers.Add(Mathf.FloorToInt(statModifierData.Value));
-                        break;
-                    case StatModifierType.Multiple:
-                        multipleModifiers.Add(statModifierData.Value);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            totalFlat = CalculateFlat(flatModifiers);
-            totalMultiple = CalculateMultiple(multipleModifiers);
-        }
-        amountOfDamage = Mathf.RoundToInt((amountOfDamage + totalFlat) * totalMultiple);
-        damage = new DamageData(Mathf.RoundToInt((amountOfDamage + _damageUpgrade.FlatModifierTotal) * _damageUpgrade.MultipleModifierTotal), damage.DamageType, _playerCalculateUpgrades.gameObject);
-        return damage;
-    }
-    private int CalculateFlat(List<int> flatModifiers)
-    {
-        int totalFlat = 0;
-        foreach (int modifier in flatModifiers)
-        {
-            totalFlat += modifier;
-        }
-        return totalFlat;
-    }
-    private float CalculateMultiple(List<float> multipleModifiers)
-    {
-        float totalMultiple = 1;
-        foreach (float modifier in multipleModifiers)
-        {
-            if (modifier > 0)
-            {
-                totalMultiple *= modifier;
-            }
-        }
-        return totalMultiple;
     }
 }
