@@ -1,6 +1,6 @@
 <div align="center"> 
   <a href="https://gokolokgjo.itch.io/iron-covenant">
-    <img src="photoes for GitHub/LogoV8.png" width="400" border="4">
+    <img src="images/LogoV8.png" width="400" border="4">
   </a>
 </div>
 
