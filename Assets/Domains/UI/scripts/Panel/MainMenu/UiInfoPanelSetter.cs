@@ -44,7 +44,7 @@ public class UiInfoPanelSetter : MonoBehaviour
         List<InfoTextData> infoTextDatas = new List<InfoTextData>()
         {
             {new("Title", TextType.Title1, TextAlignmentOptions.Center) },
-            {new("Descroption", TextType.Paragraph)},
+            {new("Description", TextType.Paragraph)},
         };
         Initialize(infoTextDatas, "Type", _stubImage);
     }

@@ -7,7 +7,6 @@ public class MapChoicesFiller : Savable
     [SerializeField] private GameObject _mapChoicePanelPrefab;
     [SerializeField] private MapChoicesSO _mapChoicesSO;
     [SerializeField] private GameObject _mapChoicesContent;
-    [SerializeField] private UiInfoPanelSetter _uiInfoPanelSetter;
 
     private List<UnlockedMapChoiceData> _unlockedChoices = new();
     private void ClearUI()
